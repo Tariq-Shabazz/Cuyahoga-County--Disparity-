@@ -52,7 +52,7 @@ Requires Node.js 18+.
 
 ---
 
-## Deploy to Vercel (Recommended)
+## Deploy to Vercel 
 
 1. Push this repo to GitHub
 2. Go to [vercel.com](https://vercel.com) → Import project → Select this repo
