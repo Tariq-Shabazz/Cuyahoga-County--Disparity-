@@ -183,7 +183,7 @@ const Badge = ({ idx }) => {
   );
 };
 
-const Tip = ({ active, payload, label }) => {
+const Tip = ({ active, payload, label, unit="%" }) => {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
@@ -197,7 +197,7 @@ const Tip = ({ active, payload, label }) => {
         <div key={i} style={{ color:C.inkMid, marginBottom:3 }}>
           <span style={{ color:p.color||C.inkLight }}>{p.name}:</span>{" "}
           <strong style={{ color:C.ink }}>
-            {typeof p.value === "number" ? p.value.toFixed(2)+"%" : p.value}
+            {typeof p.value === "number" ? p.value.toFixed(2)+unit : p.value}
           </strong>
         </div>
       ))}
@@ -457,7 +457,10 @@ const axProps = {
   tick:{ fill:C.inkLight, fontSize:9, fontFamily:"'IBM Plex Mono',monospace" },
 };
 const gridProps = { strokeDasharray:"2 4", stroke:C.borderFine, vertical:false };
-const legendStyle = { fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.inkLight };
+const legendStyle = {
+  fontFamily:"'IBM Plex Mono',monospace", fontSize:11, color:C.inkLight,
+  paddingTop:10, lineHeight:"1.8"
+};
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PANEL A
@@ -495,7 +498,7 @@ function PanelViewA() {
           <Label ch="Utilization % by Industry — Stacked (Study Groupings)" col={C.inkLight} sz={8} />
           <PDFLink page="34–43" compact />
         </div>
-        <ResponsiveContainer width="100%" height={260}>
+        <ResponsiveContainer width="100%" height={310}>
           <BarChart data={stackData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="28%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="name" {...axProps} />
@@ -534,7 +537,7 @@ function PanelViewA() {
           <Label ch={`Utilization vs. Availability — ${activeSet.label}`} col={C.inkLight} sz={8} />
           <PDFLink page={String(activeSet.page)} compact />
         </div>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={280}>
           <BarChart data={uvData} margin={{ top:5,right:10,left:0,bottom:60 }} barCategoryGap="28%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="name" {...axProps} angle={-30} textAnchor="end" interval={0} />
@@ -647,7 +650,7 @@ function PanelViewB() {
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
           <Label ch="Utilization % — Three Groups (Stacked)" col={C.inkLight} sz={8} />
           <PDFLink page="34–43" compact />
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={260}>
             <BarChart data={stackData} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="30%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} />
@@ -664,7 +667,7 @@ function PanelViewB() {
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
           <Label ch="Availability % — Three Groups (Stacked)" col={C.inkLight} sz={8} />
           <PDFLink page="47–51" compact />
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={260}>
             <BarChart data={stackAvailData} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="30%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} />
@@ -696,7 +699,7 @@ function PanelViewB() {
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
           <Label ch={`Util vs. Avail — ${activeSet.label}`} col={C.inkLight} sz={8} />
-          <ResponsiveContainer width="100%" height={210}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={uvData} margin={{ top:10,right:5,left:0,bottom:30 }} barCategoryGap="28%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} angle={-20} textAnchor="end" interval={0} />
@@ -711,12 +714,12 @@ function PanelViewB() {
 
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
           <Label ch="Disparity Index — Cross-Industry (3 Groups)" col={C.inkLight} sz={8} />
-          <ResponsiveContainer width="100%" height={210}>
+          <ResponsiveContainer width="100%" height={230}>
             <BarChart data={idxCross} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="22%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} />
               <YAxis {...axProps} domain={[0,220]} />
-              <Tooltip content={<Tip />} />
+              <Tooltip content={<Tip unit="" />} />
               <Legend wrapperStyle={legendStyle} />
               <ReferenceLine y={100} stroke={C.parity}   strokeDasharray="4 4" label={{ value:"Parity",  fill:C.parity,  fontSize:8, fontFamily:"'IBM Plex Mono',monospace" }} />
               <ReferenceLine y={80}  stroke={C.warn}     strokeDasharray="4 4" label={{ value:"Croson",  fill:C.warn,    fontSize:8, fontFamily:"'IBM Plex Mono',monospace" }} />
@@ -777,7 +780,7 @@ function PanelGSPC() {
           <Label ch="Table 2 — Availability by Industry & Group (GSPC 2020)" col={C.inkLight} sz={8} />
           <WebLink url="https://cuyahogacounty.gov/docs/default-source/council/synapse/idlt_323538_file_100021777_20210408-ccwhl-agendattach.pdf" label="GSPC 2020 PDF" compact />
         </div>
-        <ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height={280}>
           <BarChart data={availData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="22%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="industry" {...axProps} />
@@ -799,7 +802,7 @@ function PanelGSPC() {
           <Label ch="Table 3 — Prime Utilization % by Industry & Group (GSPC 2020)" col={C.inkLight} sz={8} />
           <WebLink url="https://cuyahogacounty.gov/docs/default-source/council/synapse/idlt_323538_file_100021777_20210408-ccwhl-agendattach.pdf" label="GSPC 2020 Table 3" compact />
         </div>
-        <ResponsiveContainer width="100%" height={220}>
+        <ResponsiveContainer width="100%" height={270}>
           <BarChart data={utilData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="22%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="industry" {...axProps} />
@@ -1113,7 +1116,7 @@ function PanelGreenLine() {
           </div>
           <PDFLink page="52–64" compact />
         </div>
-        <ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height={280}>
           <BarChart data={gapData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="28%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="name" {...axProps} />
@@ -1396,19 +1399,35 @@ export default function App() {
         {TABS.map(t=>{
           const a = tab===t.id;
           const isGL = t.id==="greenline";
+          const activeCol = isGL ? GL : C.ink;
           return (
             <button key={t.id} onClick={()=>setTab(t.id)} style={{
-              padding:"10px 18px",
-              fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
-              fontWeight:a?600:400,
-              color: a ? C.ink : isGL ? GL : C.inkLight,
+              padding:"13px 22px",
+              fontFamily:"'IBM Plex Mono',monospace", fontSize:12,
+              fontWeight:a?700:500,
+              color: a ? activeCol : C.inkMid,
               background:a?C.bg:"transparent",
               border:"none",
-              borderTop:a?`3px solid ${isGL?GL:C.ink}`:"3px solid transparent",
+              borderTop:a?`4px solid ${activeCol}`:"4px solid transparent",
               borderBottom:"none",
               cursor:"pointer", whiteSpace:"nowrap",
-              letterSpacing:"0.03em"
-            }}>{t.label}</button>
+              letterSpacing:"0.03em",
+              boxShadow: a ? `inset 0 -2px 0 ${C.bg}` : "none",
+              outline:"none",
+            }}
+            onMouseEnter={e=>{
+              if (!a) {
+                e.currentTarget.style.color = isGL ? GL : C.ink;
+                e.currentTarget.style.background = C.bg+"80";
+              }
+            }}
+            onMouseLeave={e=>{
+              if (!a) {
+                e.currentTarget.style.color = C.inkMid;
+                e.currentTarget.style.background = "transparent";
+              }
+            }}
+            >{t.label}</button>
           );
         })}
       </div>
