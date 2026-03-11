@@ -1,0 +1,521 @@
+:root {
+  --green: #1a7a4a;
+  --green-light: #22a060;
+  --green-dark: #115c37;
+  --gold: #c9a227;
+  --gold-light: #e0b840;
+  --dark: #1a1a2e;
+  --mid: #16213e;
+  --mid-light: #1e2d50;
+  --text: #e8e8e8;
+  --text-muted: #9aa3b5;
+  --accent: #0f3460;
+  --accent-light: #1a4a80;
+  --border: #2a3a5c;
+  --card-bg: #1e2a42;
+  --danger: #e05252;
+  --warning: #e0a030;
+  --success: #2ecc71;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--dark);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.app-header {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--green-dark) 100%);
+  border-bottom: 3px solid var(--gold);
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.app-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+.app-header .subtitle {
+  font-size: 0.9rem;
+  color: var(--gold-light);
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+/* ── Tab Navigation ── */
+.tab-nav {
+  background-color: var(--mid);
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  gap: 0;
+  padding: 0 1rem;
+  scrollbar-width: none;
+}
+
+.tab-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.9rem 1.4rem;
+  text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  background-color: rgba(255,255,255,0.04);
+}
+
+.tab-btn.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+  background-color: rgba(201,162,39,0.08);
+}
+
+/* ── Tab Content ── */
+.tab-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Section Headings ── */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold);
+  border-left: 4px solid var(--green);
+  padding-left: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--green-light);
+  margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* ── Cards ── */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Tables ── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+}
+
+.data-table th {
+  background-color: var(--accent);
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  padding: 0.65rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--green);
+}
+
+.data-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.data-table tbody tr:nth-child(odd) {
+  background-color: rgba(255,255,255,0.025);
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(26,122,74,0.12);
+}
+
+.data-table td.di-high {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.data-table td.di-ok {
+  color: var(--text);
+}
+
+.data-table td.di-low {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-disparity {
+  background-color: rgba(224,82,82,0.2);
+  color: var(--danger);
+  border: 1px solid rgba(224,82,82,0.4);
+}
+
+.badge-ok {
+  background-color: rgba(46,204,113,0.2);
+  color: var(--success);
+  border: 1px solid rgba(46,204,113,0.4);
+}
+
+.badge-over {
+  background-color: rgba(201,162,39,0.2);
+  color: var(--gold);
+  border: 1px solid rgba(201,162,39,0.4);
+}
+
+/* ── Insight / Quote Boxes ── */
+.insight-box {
+  background: linear-gradient(135deg, rgba(26,122,74,0.15) 0%, rgba(15,52,96,0.3) 100%);
+  border: 1px solid var(--green);
+  border-left: 4px solid var(--green);
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.insight-box strong {
+  color: var(--gold);
+}
+
+.quote-block {
+  background-color: rgba(15,52,96,0.4);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 1.25rem 1.75rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.quote-block cite {
+  display: block;
+  margin-top: 0.75rem;
+  font-style: normal;
+  font-size: 0.82rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ── Two-column grid ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .tab-content {
+    padding: 1rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ── Chart containers ── */
+.chart-container {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.chart-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+/* ── Sources Tab ── */
+.source-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.source-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 2px 12px rgba(26,122,74,0.2);
+}
+
+.source-card a {
+  color: var(--green-light);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+.source-card a:hover {
+  color: var(--gold);
+  text-decoration: underline;
+}
+
+.source-card .source-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.source-card .source-org {
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.source-card .source-desc {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* ── Green Line Tab ── */
+.pillar-card {
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(15,52,96,0.5) 100%);
+  border: 1px solid var(--green);
+  border-top: 3px solid var(--green);
+  border-radius: 8px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.pillar-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--green-light);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.25rem;
+}
+
+.pillar-subtitle {
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-style: italic;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.criteria-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.criteria-list li {
+  padding: 0.4rem 0 0.4rem 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--text);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.criteria-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--green-light);
+}
+
+.why-matters {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.why-matters h4 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.why-matters ul {
+  list-style: none;
+  padding: 0;
+}
+
+.why-matters ul li {
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  padding: 0.2rem 0 0.2rem 1.25rem;
+  position: relative;
+}
+
+.why-matters ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+}
+
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.goal-item {
+  background-color: rgba(26,122,74,0.12);
+  border: 1px solid rgba(26,122,74,0.3);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.goal-item .goal-pct {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--green-light);
+  line-height: 1.1;
+}
+
+.goal-item .goal-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.legal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.legal-item {
+  background-color: rgba(15,52,96,0.4);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.legal-item h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.legal-item p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.stat-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.stat-chip {
+  background-color: rgba(26,122,74,0.18);
+  border: 1px solid rgba(26,122,74,0.35);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.stat-chip strong {
+  color: var(--gold);
+  display: block;
+  font-size: 1.1rem;
+}
