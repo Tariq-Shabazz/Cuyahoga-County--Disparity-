@@ -158,7 +158,7 @@ const CAT_COLOR = {
 // SHARED COMPONENTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const Label = ({ ch, col, sz=9 }) => (
+const Label = ({ ch, col, sz=11 }) => (
   <span style={{
     fontFamily:"'IBM Plex Mono',monospace", fontSize:sz,
     color:col||C.inkLight, letterSpacing:"0.06em", textTransform:"uppercase"
@@ -175,7 +175,7 @@ const Badge = ({ idx }) => {
   return (
     <span style={{
       background:bg, color:col, padding:"2px 8px", borderRadius:3,
-      fontSize:8, fontFamily:"'IBM Plex Mono',monospace", fontWeight:600,
+      fontSize:11, fontFamily:"'IBM Plex Mono',monospace", fontWeight:600,
       border:`1px solid ${col}40`, whiteSpace:"nowrap"
     }}>
       {idx >= 100 ? "Parity" : idx < 80 ? "Substantial" : "Mild"} · {n}
@@ -188,7 +188,7 @@ const Tip = ({ active, payload, label }) => {
   return (
     <div style={{
       background:C.card, border:`1px solid ${C.border}`, borderRadius:6,
-      padding:"10px 14px", fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
+      padding:"10px 14px", fontFamily:"'IBM Plex Mono',monospace", fontSize:12,
       boxShadow:"0 4px 20px rgba(0,0,0,0.12)"
     }}>
       <div style={{ color:C.ink, fontWeight:700, marginBottom:6,
@@ -217,7 +217,7 @@ const PDFLink = ({ page="", compact=false }) => {
         background:C.slateBg, border:`1px solid ${C.slate}40`,
         borderRadius:3, padding:compact?"2px 8px":"3px 11px", cursor:"default"
       }}>
-      <span style={{ fontSize:compact?7:9, color:C.slate,
+      <span style={{ fontSize:compact?9:11, color:C.slate,
         fontFamily:"'IBM Plex Mono',monospace", letterSpacing:"0.04em" }}>
         ↗ {lbl}
       </span>
@@ -234,7 +234,7 @@ const WebLink = ({ url, label, compact=false }) => (
     }}
     onMouseEnter={e=>{ e.currentTarget.style.background=C.slate; e.currentTarget.querySelector("span").style.color="#fff"; }}
     onMouseLeave={e=>{ e.currentTarget.style.background=C.slateBg; e.currentTarget.querySelector("span").style.color=C.slate; }}>
-    <span style={{ fontSize:compact?7:8, color:C.slate,
+    <span style={{ fontSize:compact?9:10, color:C.slate,
       fontFamily:"'IBM Plex Mono',monospace", letterSpacing:"0.04em",
       transition:"color 0.15s" }}>
       ↗ {label}
@@ -250,7 +250,7 @@ const StudyChip = ({ s }) => (
     borderRadius:3, padding:"2px 8px"
   }}>
     <div style={{ width:5,height:5,borderRadius:1,background:s==="gspc"?C.gspc:C.keen }} />
-    <span style={{ fontSize:7, color:s==="gspc"?C.gspc:C.keen,
+    <span style={{ fontSize:9, color:s==="gspc"?C.gspc:C.keen,
       fontFamily:"'IBM Plex Mono',monospace", letterSpacing:"0.05em", textTransform:"uppercase" }}>
       {s==="gspc"?"GSPC 2020":"Keen 2025"}
     </span>
@@ -261,16 +261,16 @@ const SecHead = ({ n, title, sub }) => (
   <div style={{ marginBottom:24, paddingBottom:14, borderBottom:`2px solid ${C.ink}` }}>
     <div style={{ display:"flex", alignItems:"baseline", gap:12 }}>
       <span style={{
-        fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
+        fontFamily:"'IBM Plex Mono',monospace", fontSize:12,
         color:C.inkFaint, letterSpacing:"0.1em"
       }}>{String(n).padStart(2,"0")}</span>
       <h2 style={{
-        fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700,
+        fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700,
         color:C.ink, margin:0, letterSpacing:"-0.01em", lineHeight:1.2
       }}>{title}</h2>
     </div>
     {sub && <p style={{
-      color:C.inkLight, fontSize:10, margin:"6px 0 0 30px",
+      color:C.inkLight, fontSize:12, margin:"6px 0 0 30px",
       fontFamily:"'IBM Plex Mono',monospace", lineHeight:1.6
     }}>{sub}</p>}
   </div>
@@ -282,12 +282,12 @@ const Stat = ({ lbl, val, sub, col }) => (
     borderRadius:6, padding:"12px 16px", flex:1, minWidth:130,
     borderTop:`3px solid ${col||C.inkFaint}`
   }}>
-    <Label ch={lbl} col={C.inkLight} sz={7} />
+    <Label ch={lbl} col={C.inkLight} sz={9} />
     <div style={{
       fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700,
       color:col||C.ink, margin:"4px 0 3px", lineHeight:1.1
     }}>{val}</div>
-    {sub && <Label ch={sub} col={C.inkFaint} sz={7} />}
+    {sub && <Label ch={sub} col={C.inkFaint} sz={9} />}
   </div>
 );
 
@@ -300,7 +300,7 @@ const MethodBox = () => (
     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
       flexWrap:"wrap", gap:8, marginBottom:12 }}>
       <span style={{
-        fontFamily:"'Playfair Display',serif", fontSize:13, fontWeight:700,
+        fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700,
         color:C.method, fontStyle:"italic"
       }}>
         Disparity Index Methodology — Identical in Both Studies
@@ -319,12 +319,12 @@ const MethodBox = () => (
       ].map(([h,v,n,col])=>(
         <div key={h} style={{ background:C.card, borderRadius:4, padding:"9px 12px",
           borderTop:`2px solid ${col}` }}>
-          <Label ch={h} col={C.inkFaint} sz={7} />
+          <Label ch={h} col={C.inkFaint} sz={9} />
           <div style={{
             fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, fontWeight:700,
             color:col, marginTop:4
           }}>{v}</div>
-          <Label ch={n} col={C.inkFaint} sz={7} />
+          <Label ch={n} col={C.inkFaint} sz={9} />
         </div>
       ))}
     </div>
@@ -354,7 +354,7 @@ const DispTable = ({ data, title, page }) => (
             {["Group","Utilization %","Availability %","Gap (pp)","Index","Status"].map(h=>(
               <th key={h} style={{
                 padding:"8px 14px", textAlign:"left",
-                fontFamily:"'IBM Plex Mono',monospace", fontSize:7, color:C.inkLight,
+                fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkLight,
                 letterSpacing:"0.1em", textTransform:"uppercase", whiteSpace:"nowrap",
                 borderBottom:`1px solid ${C.border}`
               }}>{h}</th>
@@ -372,18 +372,18 @@ const DispTable = ({ data, title, page }) => (
                   <div style={{ width:8,height:8,borderRadius:2,flexShrink:0,
                     background:CAT_COLOR[g.cat]||C.inkLight }} />
                   <span style={{
-                    fontSize:10, color:C.ink,
+                    fontSize:12, color:C.ink,
                     fontFamily:"'IBM Plex Sans',sans-serif",
                     fontWeight:g.id==="black"?700:400
                   }}>{g.label}</span>
                 </div>
               </td>
               <td style={{ padding:"8px 14px", fontFamily:"'IBM Plex Mono',monospace",
-                fontSize:10, color:C.inkMid }}>{g.util.toFixed(2)}%</td>
+                fontSize:12, color:C.inkMid }}>{g.util.toFixed(2)}%</td>
               <td style={{ padding:"8px 14px", fontFamily:"'IBM Plex Mono',monospace",
-                fontSize:10, color:C.inkLight }}>{g.avail.toFixed(2)}%</td>
+                fontSize:12, color:C.inkLight }}>{g.avail.toFixed(2)}%</td>
               <td style={{ padding:"8px 14px", fontFamily:"'IBM Plex Mono',monospace",
-                fontSize:10, color:g.util<g.avail?C.alert:C.parity, fontWeight:600 }}>
+                fontSize:12, color:g.util<g.avail?C.alert:C.parity, fontWeight:600 }}>
                 {(g.util-g.avail).toFixed(2)}
               </td>
               <td style={{ padding:"8px 14px" }}>
@@ -409,7 +409,7 @@ const IndexBars = ({ data, page }) => (
   }}>
     <div style={{ display:"flex", justifyContent:"space-between", marginBottom:16,
       flexWrap:"wrap", gap:8, alignItems:"center" }}>
-      <Label ch="Disparity Index  =  (Utilization ÷ Availability) × 100  ·  Parity at 100" col={C.inkLight} sz={8} />
+      <Label ch="Disparity Index  =  (Utilization ÷ Availability) × 100  ·  Parity at 100" col={C.inkLight} sz={10} />
       <PDFLink page={page} compact />
     </div>
     {data.filter(g=>g.id!=="majority").map(g=>{
@@ -426,7 +426,7 @@ const IndexBars = ({ data, page }) => (
               <div style={{ width:7,height:7,borderRadius:2,
                 background:CAT_COLOR[g.cat]||C.inkLight, flexShrink:0 }} />
               <span style={{ fontFamily:"'IBM Plex Sans',sans-serif",
-                fontSize:10, color:C.inkMid }}>{g.label}</span>
+                fontSize:12, color:C.inkMid }}>{g.label}</span>
             </div>
             <span style={{
               fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700, color:col
@@ -442,22 +442,22 @@ const IndexBars = ({ data, page }) => (
             <div style={{ height:"100%", width:`${pct}%`, background:col, borderRadius:3 }} />
           </div>
           <div style={{ display:"flex", justifyContent:"space-between", marginTop:2 }}>
-            <Label ch={`util ${g.util.toFixed(2)}%`} col={C.inkFaint} sz={7} />
-            <Label ch={`avail ${g.avail.toFixed(2)}%`} col={C.inkFaint} sz={7} />
+            <Label ch={`util ${g.util.toFixed(2)}%`} col={C.inkFaint} sz={9} />
+            <Label ch={`avail ${g.avail.toFixed(2)}%`} col={C.inkFaint} sz={9} />
           </div>
         </div>
       );
     })}
-    <Label ch="← Parity line at 100 · Scale 0–200+ · Source: Keen Independent 2025 Disparity Study" col={C.inkFaint} sz={7} />
+    <Label ch="← Parity line at 100 · Scale 0–200+ · Source: Keen Independent 2025 Disparity Study" col={C.inkFaint} sz={9} />
   </div>
 );
 
 // chart axis/grid shared props
 const axProps = {
-  tick:{ fill:C.inkLight, fontSize:9, fontFamily:"'IBM Plex Mono',monospace" },
+  tick:{ fill:C.inkLight, fontSize:11, fontFamily:"'IBM Plex Mono',monospace" },
 };
 const gridProps = { strokeDasharray:"2 4", stroke:C.borderFine, vertical:false };
-const legendStyle = { fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.inkLight };
+const legendStyle = { fontFamily:"'IBM Plex Mono',monospace", fontSize:11, color:C.inkLight };
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PANEL A
@@ -492,10 +492,10 @@ function PanelViewA() {
         borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8, alignItems:"center" }}>
-          <Label ch="Utilization % by Industry — Stacked (Study Groupings)" col={C.inkLight} sz={8} />
+          <Label ch="Utilization % by Industry — Stacked (Study Groupings)" col={C.inkLight} sz={10} />
           <PDFLink page="34–43" compact />
         </div>
-        <ResponsiveContainer width="100%" height={260}>
+        <ResponsiveContainer width="100%" height={300}>
           <BarChart data={stackData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="28%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="name" {...axProps} />
@@ -516,7 +516,7 @@ function PanelViewA() {
       <div style={{ display:"flex", gap:7, flexWrap:"wrap", marginBottom:16 }}>
         {INDUSTRY_SETS.map(s=>(
           <button key={s.key} onClick={()=>setActiveInd(s.key)} style={{
-            padding:"5px 13px", fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+            padding:"6px 15px", fontFamily:"'IBM Plex Mono',monospace", fontSize:11,
             color:activeInd===s.key?C.card:C.inkMid,
             background:activeInd===s.key?C.slate:"transparent",
             border:`1px solid ${activeInd===s.key?C.slate:C.border}`,
@@ -531,10 +531,10 @@ function PanelViewA() {
         borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8, alignItems:"center" }}>
-          <Label ch={`Utilization vs. Availability — ${activeSet.label}`} col={C.inkLight} sz={8} />
+          <Label ch={`Utilization vs. Availability — ${activeSet.label}`} col={C.inkLight} sz={10} />
           <PDFLink page={String(activeSet.page)} compact />
         </div>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={300}>
           <BarChart data={uvData} margin={{ top:5,right:10,left:0,bottom:60 }} barCategoryGap="28%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="name" {...axProps} angle={-30} textAnchor="end" interval={0} />
@@ -623,11 +623,11 @@ function PanelViewB() {
       <div style={{
         background:C.slateBg, border:`1px solid ${C.slate}40`,
         borderRadius:6, padding:"12px 18px", marginBottom:20,
-        fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10, color:C.inkMid, lineHeight:1.8,
+        fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, color:C.inkMid, lineHeight:1.8,
         borderLeft:`4px solid ${C.slate}`
       }}>
         <strong style={{ color:C.slate, fontFamily:"'IBM Plex Mono',monospace",
-          fontSize:9, letterSpacing:"0.06em", textTransform:"uppercase" }}>Framework Logic — </strong>
+          fontSize:11, letterSpacing:"0.06em", textTransform:"uppercase" }}>Framework Logic — </strong>
         WBEs received <strong style={{ color:C.whiteWomen }}>$60.5M</strong> vs. all MBEs combined at{" "}
         <strong style={{ color:C.black }}>$45.8M</strong>. Grouping White Women with Majority reveals
         the dominant receiving cohort. Black-owned firms are disaggregated as the primary focus group
@@ -645,9 +645,9 @@ function PanelViewB() {
 
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
-          <Label ch="Utilization % — Three Groups (Stacked)" col={C.inkLight} sz={8} />
+          <Label ch="Utilization % — Three Groups (Stacked)" col={C.inkLight} sz={10} />
           <PDFLink page="34–43" compact />
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={260}>
             <BarChart data={stackData} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="30%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} />
@@ -662,9 +662,9 @@ function PanelViewB() {
         </div>
 
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
-          <Label ch="Availability % — Three Groups (Stacked)" col={C.inkLight} sz={8} />
+          <Label ch="Availability % — Three Groups (Stacked)" col={C.inkLight} sz={10} />
           <PDFLink page="47–51" compact />
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={260}>
             <BarChart data={stackAvailData} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="30%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} />
@@ -682,7 +682,7 @@ function PanelViewB() {
       <div style={{ display:"flex", gap:7, flexWrap:"wrap", marginBottom:14 }}>
         {INDUSTRY_SETS.map(s=>(
           <button key={s.key} onClick={()=>setActiveInd(s.key)} style={{
-            padding:"5px 13px", fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+            padding:"6px 15px", fontFamily:"'IBM Plex Mono',monospace", fontSize:11,
             color:activeInd===s.key?C.card:C.inkMid,
             background:activeInd===s.key?C.slate:"transparent",
             border:`1px solid ${activeInd===s.key?C.slate:C.border}`,
@@ -695,8 +695,8 @@ function PanelViewB() {
 
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
-          <Label ch={`Util vs. Avail — ${activeSet.label}`} col={C.inkLight} sz={8} />
-          <ResponsiveContainer width="100%" height={210}>
+          <Label ch={`Util vs. Avail — ${activeSet.label}`} col={C.inkLight} sz={10} />
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={uvData} margin={{ top:10,right:5,left:0,bottom:30 }} barCategoryGap="28%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} angle={-20} textAnchor="end" interval={0} />
@@ -710,16 +710,16 @@ function PanelViewB() {
         </div>
 
         <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
-          <Label ch="Disparity Index — Cross-Industry (3 Groups)" col={C.inkLight} sz={8} />
-          <ResponsiveContainer width="100%" height={210}>
+          <Label ch="Disparity Index — Cross-Industry (3 Groups)" col={C.inkLight} sz={10} />
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={idxCross} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="22%">
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="name" {...axProps} />
               <YAxis {...axProps} domain={[0,220]} />
               <Tooltip content={<Tip />} />
               <Legend wrapperStyle={legendStyle} />
-              <ReferenceLine y={100} stroke={C.parity}   strokeDasharray="4 4" label={{ value:"Parity",  fill:C.parity,  fontSize:8, fontFamily:"'IBM Plex Mono',monospace" }} />
-              <ReferenceLine y={80}  stroke={C.warn}     strokeDasharray="4 4" label={{ value:"Croson",  fill:C.warn,    fontSize:8, fontFamily:"'IBM Plex Mono',monospace" }} />
+              <ReferenceLine y={100} stroke={C.parity}   strokeDasharray="4 4" label={{ value:"Parity",  fill:C.parity,  fontSize:10, fontFamily:"'IBM Plex Mono',monospace" }} />
+              <ReferenceLine y={80}  stroke={C.warn}     strokeDasharray="4 4" label={{ value:"Croson",  fill:C.warn,    fontSize:10, fontFamily:"'IBM Plex Mono',monospace" }} />
               <Bar dataKey="White Women + Majority" fill={C.whiteWomen} radius={[3,3,0,0]} />
               <Bar dataKey="Black-Owned"            fill={C.black}      radius={[3,3,0,0]} />
               <Bar dataKey="Remaining MBE"          fill={C.hispanic}   radius={[3,3,0,0]} />
@@ -774,10 +774,10 @@ function PanelGSPC() {
         borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8 }}>
-          <Label ch="Table 2 — Availability by Industry & Group (GSPC 2020)" col={C.inkLight} sz={8} />
+          <Label ch="Table 2 — Availability by Industry & Group (GSPC 2020)" col={C.inkLight} sz={10} />
           <WebLink url="https://cuyahogacounty.gov/docs/default-source/council/synapse/idlt_323538_file_100021777_20210408-ccwhl-agendattach.pdf" label="GSPC 2020 PDF" compact />
         </div>
-        <ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height={280}>
           <BarChart data={availData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="22%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="industry" {...axProps} />
@@ -796,10 +796,10 @@ function PanelGSPC() {
         borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8 }}>
-          <Label ch="Table 3 — Prime Utilization % by Industry & Group (GSPC 2020)" col={C.inkLight} sz={8} />
+          <Label ch="Table 3 — Prime Utilization % by Industry & Group (GSPC 2020)" col={C.inkLight} sz={10} />
           <WebLink url="https://cuyahogacounty.gov/docs/default-source/council/synapse/idlt_323538_file_100021777_20210408-ccwhl-agendattach.pdf" label="GSPC 2020 Table 3" compact />
         </div>
-        <ResponsiveContainer width="100%" height={220}>
+        <ResponsiveContainer width="100%" height={260}>
           <BarChart data={utilData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="22%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="industry" {...axProps} />
@@ -816,8 +816,8 @@ function PanelGSPC() {
 
       <div style={{ background:C.forestBg, border:`1px solid ${C.forest}50`,
         borderRadius:6, padding:"16px 18px", borderLeft:`4px solid ${C.forest}` }}>
-        <Label ch="Central Finding — GSPC 2020" col={C.forest} sz={8} />
-        <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10.5, color:C.inkMid,
+        <Label ch="Central Finding — GSPC 2020" col={C.forest} sz={10} />
+        <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, color:C.inkMid,
           lineHeight:1.85, marginTop:10 }}>
           Despite race-neutral remediation since 2016, Black and Hispanic firms had statistically significant
           underutilization in <strong style={{ color:C.forest }}>all five work categories</strong>.
@@ -864,7 +864,7 @@ function PanelSources() {
           <div style={{
             padding:"8px 16px", background:C.cardSunk,
             borderBottom:`1px solid ${C.border}`,
-            fontFamily:"'IBM Plex Mono',monospace", fontSize:8, color:C.inkLight,
+            fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkLight,
             letterSpacing:"0.1em", textTransform:"uppercase"
           }}>{cat}</div>
           <div style={{ padding:"14px 16px", display:"flex", flexDirection:"column", gap:14 }}>
@@ -873,7 +873,7 @@ function PanelSources() {
                 {src.type==="pdf"
                   ? <PDFLink />
                   : <a href={src.url} target="_blank" rel="noopener noreferrer"
-                      style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10.5,
+                      style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12,
                         color:C.slate, textDecoration:"none",
                         borderBottom:`1px solid ${C.slate}40` }}
                       onMouseEnter={e=>e.currentTarget.style.color=C.burgundy}
@@ -881,7 +881,7 @@ function PanelSources() {
                       {src.label}
                     </a>
                 }
-                <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+                <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
                   color:C.inkFaint, marginTop:4, lineHeight:1.6 }}>→ {src.note}</div>
               </div>
             ))}
@@ -979,7 +979,7 @@ function PanelGreenLine() {
         <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between",
           flexWrap:"wrap", gap:12, marginBottom:14 }}>
           <div>
-            <Label ch="Policy Framework · Tariq Shabazz M.P.P. · Cuyahoga County" col={GL} sz={8} />
+            <Label ch="Policy Framework · Tariq Shabazz M.P.P. · Cuyahoga County" col={GL} sz={10} />
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:28, fontWeight:700,
               color:C.ink, margin:"6px 0 4px", letterSpacing:"-0.01em" }}>
               The Green Line Project
@@ -990,12 +990,12 @@ function PanelGreenLine() {
             </div>
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:5, alignItems:"flex-end" }}>
-            <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8, color:C.inkFaint,
+            <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkFaint,
               letterSpacing:"0.06em", textTransform:"uppercase" }}>Campaign / Platform Policy</span>
-            <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8, color:C.inkFaint }}>
+            <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkFaint }}>
               Local Atonement Measure
             </span>
-            <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8, color:C.inkFaint }}>
+            <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkFaint }}>
               Inspired by Dr. William Darity Jr.
             </span>
           </div>
@@ -1017,15 +1017,15 @@ function PanelGreenLine() {
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start",
           flexWrap:"wrap", gap:10, marginBottom:16 }}>
           <div>
-            <Label ch="Intellectual Foundation — Local Atonement Measure" col={C.method} sz={8} />
-            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700,
+            <Label ch="Intellectual Foundation — Local Atonement Measure" col={C.method} sz={10} />
+            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:700,
               color:C.ink, marginTop:5, fontStyle:"italic" }}>
               Inspired by Dr. William A. Darity Jr. &amp; A. Kirsten Mullen
             </div>
-            <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10, color:C.inkMid, marginTop:2 }}>
+            <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, color:C.inkMid, marginTop:2 }}>
               From Here to Equality: Reparations for Black Americans in the Twenty-First Century
             </div>
-            <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8, color:C.inkFaint, marginTop:2 }}>
+            <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkFaint, marginTop:2 }}>
               UNC Press, 2020 (1st ed.) · 2022 (2nd ed.) · Samuel DuBois Cook Professor, Duke University
             </div>
           </div>
@@ -1035,7 +1035,7 @@ function PanelGreenLine() {
 
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
           <div>
-            <Label ch="Darity & Mullen — National Framework" col={C.inkLight} sz={8} />
+            <Label ch="Darity & Mullen — National Framework" col={C.inkLight} sz={10} />
             <div style={{ marginTop:10, display:"flex", flexDirection:"column", gap:10 }}>
               {[
                 { h:"Three Eras of Injustice", b:"Darity and Mullen document how chattel slavery, Jim Crow, and modern discrimination compound across generations — producing the racial wealth gap and the systemic exclusion visible in Cuyahoga County's contract data." },
@@ -1044,14 +1044,14 @@ function PanelGreenLine() {
                 { h:"Local Atonement Rationale", b:"While Darity and Mullen argue that only the federal government can deliver full reparations, they acknowledge local atonement measures. The Green Line Project is precisely that — a county-level instrument." },
               ].map((r,i)=>(
                 <div key={i} style={{ display:"flex", gap:10 }}>
-                  <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+                  <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:11,
                     color:C.method, flexShrink:0, marginTop:1, opacity:0.5 }}>
                     {String(i+1).padStart(2,"0")}
                   </span>
                   <div>
-                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10, fontWeight:700,
+                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, fontWeight:700,
                       color:C.method, marginBottom:2 }}>{r.h}</div>
-                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:9.5,
+                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11,
                       color:C.inkMid, lineHeight:1.75 }}>{r.b}</div>
                   </div>
                 </div>
@@ -1060,7 +1060,7 @@ function PanelGreenLine() {
           </div>
 
           <div>
-            <Label ch="Shabazz — Local Translation (Green Line Project)" col={C.inkLight} sz={8} />
+            <Label ch="Shabazz — Local Translation (Green Line Project)" col={C.inkLight} sz={10} />
             <div style={{ marginTop:10, display:"flex", flexDirection:"column", gap:10 }}>
               {[
                 { h:"From National Theory → County Procurement", b:"The Green Line Project takes Darity's eligibility framework and applies it as a procurement certification standard — targeting the exact domain where Keen 2025 documents the most severe and persistent harm." },
@@ -1069,14 +1069,14 @@ function PanelGreenLine() {
                 { h:"Why County Action Now", b:"Cuyahoga County has two successive disparity studies (2020, 2025) documenting the exact harm that the Green Line proposes to remedy, providing the narrow-tailoring evidentiary foundation Croson requires." },
               ].map((r,i)=>(
                 <div key={i} style={{ display:"flex", gap:10 }}>
-                  <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+                  <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:11,
                     color:C.gold, flexShrink:0, marginTop:1, opacity:0.5 }}>
                     {String(i+1).padStart(2,"0")}
                   </span>
                   <div>
-                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10, fontWeight:700,
+                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, fontWeight:700,
                       color:C.gold, marginBottom:2 }}>{r.h}</div>
-                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:9.5,
+                    <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11,
                       color:C.inkMid, lineHeight:1.75 }}>{r.b}</div>
                   </div>
                 </div>
@@ -1087,8 +1087,8 @@ function PanelGreenLine() {
 
         <div style={{ marginTop:16, background:C.bg, border:`1px solid ${C.border}`,
           borderRadius:5, padding:"12px 16px",
-          fontFamily:"'IBM Plex Sans',sans-serif", fontSize:9.5, color:C.inkMid, lineHeight:1.85 }}>
-          <strong style={{ color:C.method, fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+          fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11, color:C.inkMid, lineHeight:1.85 }}>
+          <strong style={{ color:C.method, fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
             letterSpacing:"0.06em", textTransform:"uppercase" }}>Critical Distinction — </strong>
           Darity and Mullen are explicit that local measures, while meaningful acts of atonement,
           cannot substitute for a comprehensive federal reparations program.
@@ -1106,14 +1106,14 @@ function PanelGreenLine() {
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8, alignItems:"center" }}>
           <div>
-            <Label ch="Evidentiary Basis — Black-Owned Firm Disparity Gap by Industry (Keen 2025)" col={C.inkLight} sz={8} />
-            <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8, color:C.inkFaint, marginTop:3 }}>
+            <Label ch="Evidentiary Basis — Black-Owned Firm Disparity Gap by Industry (Keen 2025)" col={C.inkLight} sz={10} />
+            <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkFaint, marginTop:3 }}>
               Utilization vs. availability benchmark · Keen 2025 Figures 27–35
             </div>
           </div>
           <PDFLink page="52–64" compact />
         </div>
-        <ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height={280}>
           <BarChart data={gapData} margin={{ top:5,right:10,left:0,bottom:5 }} barCategoryGap="28%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="name" {...axProps} />
@@ -1130,10 +1130,10 @@ function PanelGreenLine() {
             <div key={e.industry} style={{ flex:1, minWidth:90, background:C.bg,
               borderRadius:5, padding:"9px 12px",
               borderTop:`3px solid ${idxColor(e.idx)}` }}>
-              <Label ch={e.industry} col={C.inkFaint} sz={7} />
+              <Label ch={e.industry} col={C.inkFaint} sz={9} />
               <div style={{ fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:700,
                 color:idxColor(e.idx), marginTop:3 }}>{e.idx}</div>
-              <Label ch={`Gap: ${e.gap.toFixed(1)}pp`} col={C.inkFaint} sz={7} />
+              <Label ch={`Gap: ${e.gap.toFixed(1)}pp`} col={C.inkFaint} sz={9} />
             </div>
           ))}
         </div>
@@ -1141,12 +1141,12 @@ function PanelGreenLine() {
 
       {/* Two Pillars */}
       <div style={{ marginBottom:8 }}>
-        <Label ch="The Two Pillars of Lineage-Based Targeting" col={C.inkLight} sz={8} />
+        <Label ch="The Two Pillars of Lineage-Based Targeting" col={C.inkLight} sz={10} />
       </div>
       <div style={{ display:"flex", gap:8, marginBottom:16 }}>
         {GL_PILLARS.map(p=>(
           <button key={p.id} onClick={()=>setActivePillar(p.id)} style={{
-            flex:1, padding:"11px 16px", fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10,
+            flex:1, padding:"12px 18px", fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12,
             fontWeight:600,
             color:activePillar===p.id?C.card:C.inkMid,
             background:activePillar===p.id?p.col:"transparent",
@@ -1161,20 +1161,20 @@ function PanelGreenLine() {
       <div style={{ background:C.card, border:`1px solid ${pillar.col}50`,
         borderRadius:7, padding:"20px 22px", marginBottom:20,
         borderTop:`3px solid ${pillar.col}` }}>
-        <div style={{ fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700,
+        <div style={{ fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:700,
           color:pillar.col, marginBottom:16, fontStyle:"italic" }}>{pillar.title}</div>
 
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:16 }}>
           <div>
-            <Label ch="Evidentiary Support" col={C.inkLight} sz={8} />
+            <Label ch="Evidentiary Support" col={C.inkLight} sz={10} />
             <div style={{ marginTop:10, display:"flex", flexDirection:"column", gap:9 }}>
               {pillar.evidence.map((e,i)=>(
                 <div key={i} style={{ display:"flex", gap:8 }}>
-                  <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+                  <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:11,
                     color:pillar.col, flexShrink:0, marginTop:1, opacity:0.6 }}>
                     {String(i+1).padStart(2,"0")}
                   </span>
-                  <span style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:9.5,
+                  <span style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11,
                     color:C.inkMid, lineHeight:1.75 }}>{e}</span>
                 </div>
               ))}
@@ -1182,12 +1182,12 @@ function PanelGreenLine() {
           </div>
 
           <div>
-            <Label ch="Proposed Remedy" col={C.inkLight} sz={8} />
+            <Label ch="Proposed Remedy" col={C.inkLight} sz={10} />
             <div style={{ marginTop:10, background:C.bg, borderRadius:6, padding:"14px 16px",
               border:`1px solid ${pillar.col}30` }}>
               <div style={{ width:30, height:3, borderRadius:2,
                 background:pillar.col, marginBottom:10 }} />
-              <p style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10,
+              <p style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12,
                 color:C.inkMid, lineHeight:1.85, margin:0 }}>
                 {pillar.remedy}
               </p>
@@ -1203,10 +1203,10 @@ function PanelGreenLine() {
                 ].map(s=>(
                   <div key={s.lbl} style={{ background:C.bg, borderRadius:5, padding:"8px 11px",
                     borderTop:`2px solid ${GL}` }}>
-                    <Label ch={s.lbl} col={C.inkFaint} sz={7} />
+                    <Label ch={s.lbl} col={C.inkFaint} sz={9} />
                     <div style={{ fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700,
                       color:GL, marginTop:3 }}>{s.val}</div>
-                    <Label ch={s.note} col={C.inkFaint} sz={7} />
+                    <Label ch={s.note} col={C.inkFaint} sz={9} />
                   </div>
                 ))}
               </div>
@@ -1221,10 +1221,10 @@ function PanelGreenLine() {
                 ].map(s=>(
                   <div key={s.lbl} style={{ background:C.bg, borderRadius:5, padding:"8px 11px",
                     borderTop:`2px solid ${C.gold}` }}>
-                    <Label ch={s.lbl} col={C.inkFaint} sz={7} />
+                    <Label ch={s.lbl} col={C.inkFaint} sz={9} />
                     <div style={{ fontFamily:"'Playfair Display',serif", fontSize:13, fontWeight:700,
                       color:C.gold, marginTop:3 }}>{s.val}</div>
-                    <Label ch={s.note} col={C.inkFaint} sz={7} />
+                    <Label ch={s.note} col={C.inkFaint} sz={9} />
                   </div>
                 ))}
               </div>
@@ -1235,7 +1235,7 @@ function PanelGreenLine() {
 
       {/* Program Architecture */}
       <div style={{ marginBottom:8 }}>
-        <Label ch="Program Architecture — Green Line Project" col={C.inkLight} sz={8} />
+        <Label ch="Program Architecture — Green Line Project" col={C.inkLight} sz={10} />
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",
         gap:10, marginBottom:20 }}>
@@ -1243,11 +1243,11 @@ function PanelGreenLine() {
           <div key={a.n} style={{ background:C.card, border:`1px solid ${C.border}`,
             borderRadius:6, padding:"14px 16px", borderTop:`3px solid ${a.col}` }}>
             <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
-              <Label ch={a.n} col={C.inkFaint} sz={8} />
+              <Label ch={a.n} col={C.inkFaint} sz={10} />
               <span style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11, fontWeight:700,
                 color:C.ink }}>{a.label}</span>
             </div>
-            <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:9.5, color:C.inkMid, lineHeight:1.7 }}>
+            <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11, color:C.inkMid, lineHeight:1.7 }}>
               {a.desc}
             </div>
           </div>
@@ -1258,7 +1258,7 @@ function PanelGreenLine() {
       <div style={{ background:C.card, border:`1px solid ${C.border}`,
         borderRadius:7, padding:"18px 20px", marginBottom:20,
         borderLeft:`4px solid ${C.method}` }}>
-        <Label ch="Legal Framework — Narrow Tailoring Architecture" col={C.method} sz={8} />
+        <Label ch="Legal Framework — Narrow Tailoring Architecture" col={C.method} sz={10} />
         <div style={{ display:"flex", flexDirection:"column", gap:12, marginTop:14 }}>
           {GL_LEGAL.map(l=>(
             <div key={l.case} style={{ display:"flex", gap:14, paddingBottom:12,
@@ -1266,9 +1266,9 @@ function PanelGreenLine() {
               <div style={{ width:3, flexShrink:0, background:C.method, borderRadius:2,
                 alignSelf:"stretch", opacity:0.3 }} />
               <div>
-                <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8.5,
+                <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
                   color:C.method, marginBottom:4, fontWeight:500 }}>{l.case}</div>
-                <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:9.5,
+                <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11,
                   color:C.inkMid, lineHeight:1.75 }}>{l.note}</div>
               </div>
             </div>
@@ -1279,7 +1279,7 @@ function PanelGreenLine() {
       {/* Central argument */}
       <div style={{ background:GL_BG, border:`1px solid ${GL}40`,
         borderRadius:7, padding:"18px 20px" }}>
-        <Label ch="Central Argument — Why General MBE is Structurally Insufficient" col={GL} sz={8} />
+        <Label ch="Central Argument — Why General MBE is Structurally Insufficient" col={GL} sz={10} />
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",
           gap:10, marginTop:14 }}>
           {[
@@ -1290,14 +1290,14 @@ function PanelGreenLine() {
           ].map(r=>(
             <div key={r.h} style={{ background:C.card, border:`1px solid ${r.col}30`,
               borderRadius:6, padding:"13px 15px", borderTop:`3px solid ${r.col}` }}>
-              <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11, fontWeight:700,
+              <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:13, fontWeight:700,
                 color:r.col, marginBottom:8 }}>{r.h}</div>
-              <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:9.5,
+              <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11,
                 color:C.inkMid, lineHeight:1.75 }}>{r.body}</div>
             </div>
           ))}
         </div>
-        <div style={{ marginTop:16, fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+        <div style={{ marginTop:16, fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
           color:C.inkFaint, borderTop:`1px solid ${C.border}`, paddingTop:12 }}>
           Framework authored by Tariq Shabazz M.P.P. · Local atonement measure inspired by Dr. William A. Darity Jr. &amp; A. Kirsten Mullen, From Here to Equality (UNC Press, 2020) ·
           Evidentiary basis: Keen Independent 2025 (Figures 27–35) + Griffin &amp; Strong P.C. 2020 (Tables 2–5) ·
@@ -1348,7 +1348,7 @@ export default function App() {
         {/* Masthead rule */}
         <div style={{ display:"flex", alignItems:"center", gap:14, marginBottom:14 }}>
           <div style={{ flex:1, height:1, background:C.inkMid }} />
-          <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+          <span style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
             color:C.inkLight, letterSpacing:"0.2em", textTransform:"uppercase",
             whiteSpace:"nowrap" }}>
             Disparity Index = (Utilization ÷ Availability) × 100
@@ -1371,7 +1371,7 @@ export default function App() {
           <div style={{ textAlign:"right" }}>
             <div style={{ fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11,
               fontWeight:600, color:C.bg }}>Tariq Shabazz, M.P.P.</div>
-            <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+            <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
               color:C.inkLight, marginTop:2 }}>Cuyahoga County, Ohio</div>
           </div>
         </div>
@@ -1399,7 +1399,7 @@ export default function App() {
           return (
             <button key={t.id} onClick={()=>setTab(t.id)} style={{
               padding:"10px 18px",
-              fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+              fontFamily:"'IBM Plex Mono',monospace", fontSize:11,
               fontWeight:a?600:400,
               color: a ? C.ink : isGL ? GL : C.inkLight,
               background:a?C.bg:"transparent",
@@ -1429,7 +1429,7 @@ export default function App() {
         <WebLink url="https://cuyahogacounty.gov/docs/default-source/council/synapse/idlt_323538_file_100021777_20210408-ccwhl-agendattach.pdf"
           label="GSPC 2020" compact />
         <span style={{
-          fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
           color:C.inkFaint, marginLeft:"auto"
         }}>
           Analysis: Tariq Shabazz M.P.P. · Figures verified against source documents
