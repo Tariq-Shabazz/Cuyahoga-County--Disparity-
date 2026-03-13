@@ -124,6 +124,7 @@ const C = {
   forestBg:  "#E8F2EC",   // forest tinted
 
   // Data group colors — print-ink palette, readable on ivory
+  // Each group uses a visually distinct hue for clear chart differentiation
   black:       "#1E3D5C",   // steel blue for Black American group
   blackDark:   "#0F2238",
   whiteWomen:  "#8A6B20",   // antique gold for WBE
@@ -131,10 +132,14 @@ const C = {
   majority:    "#5C5248",   // warm gray for majority
   majorityDark:"#3A3228",
   hispanic:    "#7A3018",   // terracotta
-  asian:       "#1E5858",   // deep teal
-  indian:      "#6A4818",   // warm brown
-  mena:        "#6A3A28",   // copper clay
+  asian:       "#0D6B8A",   // ocean teal (was #1E5858 — too similar to black's navy)
+  indian:      "#6B21A8",   // deep violet (was #6A4818 — too similar to hispanic/mena browns)
+  mena:        "#B45309",   // amber (was #6A3A28 — too similar to hispanic/indian)
   remainingMBE:"#7A3018",
+
+  // Availability benchmark bar — medium blue-gray, clearly visible yet distinct from group colors
+  avail:       "#7B8FA6",
+  availBg:     "#ECF1F7",
 
   // Status
   parity:    "#1E4D30",   // forest green
@@ -279,8 +284,9 @@ const SecHead = ({ n, title, sub }) => (
 const Stat = ({ lbl, val, sub, col }) => (
   <div style={{
     background:C.card, border:`1px solid ${C.border}`,
-    borderRadius:6, padding:"12px 16px", flex:1, minWidth:130,
-    borderTop:`3px solid ${col||C.inkFaint}`
+    borderRadius:8, padding:"12px 16px", flex:1, minWidth:130,
+    borderTop:`3px solid ${col||C.inkFaint}`,
+    boxShadow:"0 1px 4px rgba(28,23,16,0.07)"
   }}>
     <Label ch={lbl} col={C.inkLight} sz={7} />
     <div style={{
@@ -294,8 +300,9 @@ const Stat = ({ lbl, val, sub, col }) => (
 const MethodBox = () => (
   <div style={{
     background:C.cardSunk, border:`1px solid ${C.border}`,
-    borderRadius:6, padding:"14px 18px", marginBottom:22,
-    borderLeft:`4px solid ${C.method}`
+    borderRadius:8, padding:"14px 18px", marginBottom:22,
+    borderLeft:`4px solid ${C.method}`,
+    boxShadow:"0 1px 4px rgba(28,23,16,0.07)"
   }}>
     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
       flexWrap:"wrap", gap:8, marginBottom:12 }}>
@@ -335,7 +342,8 @@ const MethodBox = () => (
 const DispTable = ({ data, title, page }) => (
   <div style={{
     background:C.card, border:`1px solid ${C.border}`,
-    borderRadius:6, overflow:"hidden", marginBottom:16
+    borderRadius:8, overflow:"hidden", marginBottom:16,
+    boxShadow:"0 1px 4px rgba(28,23,16,0.07)"
   }}>
     <div style={{
       padding:"10px 16px", background:C.cardSunk,
@@ -405,7 +413,8 @@ const DispTable = ({ data, title, page }) => (
 const IndexBars = ({ data, page }) => (
   <div style={{
     background:C.card, border:`1px solid ${C.border}`,
-    borderRadius:6, padding:"18px 20px", marginBottom:16
+    borderRadius:8, padding:"18px 20px", marginBottom:16,
+    boxShadow:"0 1px 4px rgba(28,23,16,0.07)"
   }}>
     <div style={{ display:"flex", justifyContent:"space-between", marginBottom:16,
       flexWrap:"wrap", gap:8, alignItems:"center" }}>
@@ -454,10 +463,10 @@ const IndexBars = ({ data, page }) => (
 
 // chart axis/grid shared props
 const axProps = {
-  tick:{ fill:C.inkLight, fontSize:9, fontFamily:"'IBM Plex Mono',monospace" },
+  tick:{ fill:C.inkLight, fontSize:10, fontFamily:"'IBM Plex Mono',monospace" },
 };
 const gridProps = { strokeDasharray:"2 4", stroke:C.borderFine, vertical:false };
-const legendStyle = { fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.inkLight };
+const legendStyle = { fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkLight };
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PANEL A
@@ -489,7 +498,8 @@ function PanelViewA() {
       </div>
 
       <div style={{ background:C.card, border:`1px solid ${C.border}`,
-        borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
+        borderRadius:8, padding:"18px 20px", marginBottom:16,
+        boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8, alignItems:"center" }}>
           <Label ch="Utilization % by Industry — Stacked (Study Groupings)" col={C.inkLight} sz={8} />
@@ -528,7 +538,8 @@ function PanelViewA() {
       </div>
 
       <div style={{ background:C.card, border:`1px solid ${C.border}`,
-        borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
+        borderRadius:8, padding:"18px 20px", marginBottom:16,
+        boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8, alignItems:"center" }}>
           <Label ch={`Utilization vs. Availability — ${activeSet.label}`} col={C.inkLight} sz={8} />
@@ -542,7 +553,7 @@ function PanelViewA() {
             <Tooltip content={<Tip />} />
             <Legend wrapperStyle={legendStyle} />
             <Bar dataKey="Utilization"  fill={C.slate}     radius={[3,3,0,0]} />
-            <Bar dataKey="Availability" fill={C.cardSunk}  radius={[3,3,0,0]}
+            <Bar dataKey="Availability" fill={C.avail}  radius={[3,3,0,0]}
               stroke={C.border} strokeWidth={1} />
           </BarChart>
         </ResponsiveContainer>
@@ -644,7 +655,8 @@ function PanelViewB() {
       </div>
 
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
-        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
+        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:8, padding:"16px 18px",
+          boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
           <Label ch="Utilization % — Three Groups (Stacked)" col={C.inkLight} sz={8} />
           <PDFLink page="34–43" compact />
           <ResponsiveContainer width="100%" height={220}>
@@ -661,7 +673,8 @@ function PanelViewB() {
           </ResponsiveContainer>
         </div>
 
-        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
+        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:8, padding:"16px 18px",
+          boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
           <Label ch="Availability % — Three Groups (Stacked)" col={C.inkLight} sz={8} />
           <PDFLink page="47–51" compact />
           <ResponsiveContainer width="100%" height={220}>
@@ -694,7 +707,8 @@ function PanelViewB() {
       </div>
 
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
-        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
+        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:8, padding:"16px 18px",
+          boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
           <Label ch={`Util vs. Avail — ${activeSet.label}`} col={C.inkLight} sz={8} />
           <ResponsiveContainer width="100%" height={210}>
             <BarChart data={uvData} margin={{ top:10,right:5,left:0,bottom:30 }} barCategoryGap="28%">
@@ -704,12 +718,13 @@ function PanelViewB() {
               <Tooltip content={<Tip />} />
               <Legend wrapperStyle={legendStyle} />
               <Bar dataKey="Utilization"  fill={C.slate}    radius={[3,3,0,0]} />
-              <Bar dataKey="Availability" fill={C.cardSunk} radius={[3,3,0,0]} stroke={C.border} strokeWidth={1} />
+              <Bar dataKey="Availability" fill={C.avail} radius={[3,3,0,0]} stroke={C.border} strokeWidth={1} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" }}>
+        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:8, padding:"16px 18px",
+          boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
           <Label ch="Disparity Index — Cross-Industry (3 Groups)" col={C.inkLight} sz={8} />
           <ResponsiveContainer width="100%" height={210}>
             <BarChart data={idxCross} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="22%">
@@ -771,7 +786,8 @@ function PanelGSPC() {
       </div>
 
       <div style={{ background:C.card, border:`1px solid ${C.border}`,
-        borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
+        borderRadius:8, padding:"18px 20px", marginBottom:16,
+        boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8 }}>
           <Label ch="Table 2 — Availability by Industry & Group (GSPC 2020)" col={C.inkLight} sz={8} />
@@ -793,7 +809,8 @@ function PanelGSPC() {
       </div>
 
       <div style={{ background:C.card, border:`1px solid ${C.border}`,
-        borderRadius:6, padding:"18px 20px", marginBottom:16 }}>
+        borderRadius:8, padding:"18px 20px", marginBottom:16,
+        boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8 }}>
           <Label ch="Table 3 — Prime Utilization % by Industry & Group (GSPC 2020)" col={C.inkLight} sz={8} />
@@ -1102,7 +1119,8 @@ function PanelGreenLine() {
 
       {/* Evidentiary basis chart */}
       <div style={{ background:C.card, border:`1px solid ${C.border}`,
-        borderRadius:7, padding:"18px 20px", marginBottom:20 }}>
+        borderRadius:8, padding:"18px 20px", marginBottom:20,
+        boxShadow:"0 1px 4px rgba(28,23,16,0.07)" }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:14,
           flexWrap:"wrap", gap:8, alignItems:"center" }}>
           <div>
@@ -1121,7 +1139,7 @@ function PanelGreenLine() {
             <Tooltip content={<Tip />} />
             <Legend wrapperStyle={legendStyle} />
             <Bar dataKey="Black-Owned Util."       fill={C.black}    radius={[3,3,0,0]} />
-            <Bar dataKey="Availability Benchmark"  fill={C.cardSunk} radius={[3,3,0,0]} stroke={C.border} strokeWidth={1} />
+            <Bar dataKey="Availability Benchmark"  fill={C.avail} radius={[3,3,0,0]} stroke={C.border} strokeWidth={1} />
             <Bar dataKey="Gap"                     fill={C.burgundy} radius={[3,3,0,0]} opacity={0.8} />
           </BarChart>
         </ResponsiveContainer>
@@ -1397,9 +1415,12 @@ export default function App() {
           const a = tab===t.id;
           const isGL = t.id==="greenline";
           return (
-            <button key={t.id} onClick={()=>setTab(t.id)} style={{
-              padding:"10px 18px",
-              fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+            <button key={t.id} onClick={()=>setTab(t.id)}
+              onMouseEnter={e=>{ if(!a){ e.currentTarget.style.background=C.bg; e.currentTarget.style.color=isGL?GL:C.inkMid; }}}
+              onMouseLeave={e=>{ if(!a){ e.currentTarget.style.background="transparent"; e.currentTarget.style.color=isGL?GL:C.inkLight; }}}
+              style={{
+              padding:"11px 18px",
+              fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
               fontWeight:a?600:400,
               color: a ? C.ink : isGL ? GL : C.inkLight,
               background:a?C.bg:"transparent",
@@ -1407,7 +1428,8 @@ export default function App() {
               borderTop:a?`3px solid ${isGL?GL:C.ink}`:"3px solid transparent",
               borderBottom:"none",
               cursor:"pointer", whiteSpace:"nowrap",
-              letterSpacing:"0.03em"
+              letterSpacing:"0.03em",
+              transition:"all 0.15s"
             }}>{t.label}</button>
           );
         })}
