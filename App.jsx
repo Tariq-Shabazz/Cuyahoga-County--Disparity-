@@ -1309,9 +1309,480 @@ function PanelGreenLine() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// PANEL NARRATIVE
+// ═══════════════════════════════════════════════════════════════════════════════
+function PanelNarrative() {
+  const hrStyle = {
+    border:"none", borderTop:`1px solid ${C.border}`,
+    margin:"32px 0"
+  };
+  const h2Style = {
+    fontFamily:"'Playfair Display',serif", fontSize:18, fontWeight:700,
+    color:C.ink, margin:"28px 0 10px", letterSpacing:"-0.01em", lineHeight:1.3
+  };
+  const pStyle = {
+    fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, color:C.inkMid,
+    lineHeight:1.85, margin:"0 0 14px"
+  };
+  const codeStyle = {
+    display:"block", fontFamily:"'IBM Plex Mono',monospace", fontSize:11,
+    background:C.cardSunk, border:`1px solid ${C.border}`,
+    borderRadius:4, padding:"10px 16px", margin:"12px 0",
+    color:C.inkMid, lineHeight:1.7
+  };
+  const refStyle = {
+    fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11, color:C.inkMid,
+    lineHeight:1.7, margin:"0 0 8px", paddingLeft:20, textIndent:"-20px"
+  };
+
+  return (
+    <div style={{ maxWidth:760, margin:"0 auto" }}>
+
+      {/* Title block */}
+      <div style={{
+        background:C.card, border:`1px solid ${C.border}`,
+        borderRadius:6, padding:"28px 32px", marginBottom:28,
+        borderTop:`4px solid ${C.ink}`
+      }}>
+        <h1 style={{
+          fontFamily:"'Playfair Display',serif", fontSize:26, fontWeight:900,
+          color:C.ink, margin:"0 0 8px", letterSpacing:"-0.02em", lineHeight:1.2
+        }}>
+          Disparities in Public Procurement:
+        </h1>
+        <h2 style={{
+          fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:400,
+          fontStyle:"italic", color:C.inkMid, margin:"0 0 20px", lineHeight:1.4
+        }}>
+          A Secondary Analysis of Contract Distribution in Cuyahoga County, Ohio
+          and the Green Line Project Policy Framework
+        </h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+          <span style={{
+            fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12,
+            fontWeight:600, color:C.ink
+          }}>Tariq K. Shabazz, M.P.P.</span>
+          <span style={{
+            fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkLight
+          }}>Shabazz Research</span>
+          <a href="https://shabazzresearch.com" target="_blank" rel="noopener noreferrer"
+            style={{
+              fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
+              color:C.slate, textDecoration:"none"
+            }}>
+            shabazzresearch.com
+          </a>
+        </div>
+      </div>
+
+      {/* Abstract */}
+      <div style={{
+        background:C.cardSunk, border:`1px solid ${C.border}`,
+        borderRadius:6, padding:"20px 24px", marginBottom:28,
+        borderLeft:`4px solid ${C.inkMid}`
+      }}>
+        <div style={{
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+          color:C.inkFaint, letterSpacing:"0.12em", textTransform:"uppercase",
+          marginBottom:10
+        }}>Abstract</div>
+        <p style={pStyle}>
+          Public procurement represents one of the primary mechanisms through which local governments
+          distribute economic opportunity. Governments frequently commission disparity studies to
+          determine whether firms owned by minorities and women receive public contracts at rates
+          proportional to their availability in the marketplace. This study presents a secondary
+          analysis of two disparity datasets examining public contracting in Cuyahoga County, Ohio.
+        </p>
+        <p style={pStyle}>
+          Across the datasets examined, approximately <strong>$1,620,965,288</strong> in county
+          contracting activity is analyzed. Using the standard disparity-study framework comparing
+          marketplace availability with contract utilization, this research estimates the economic
+          magnitude of contracting disparities affecting Black American–owned firms.
+        </p>
+        <p style={pStyle}>
+          The analysis finds that Black-owned firms received approximately{" "}
+          <strong>$38,193,772.82</strong> in contracts, while availability-based modeling indicates
+          that approximately <strong>$183,604,870.47</strong> would be expected if utilization
+          reflected marketplace availability. This difference represents an estimated
+          availability-based contracting opportunity gap of approximately{" "}
+          <strong>$145,411,097.65</strong>.
+        </p>
+        <p style={pStyle}>
+          A population-based allocation model derived from demographic data reported in the American
+          Community Survey further indicates that approximately{" "}
+          <strong>$491,152,482.26</strong> in contracts would correspond to the Black share of the
+          county population if procurement participation reflected population distribution.
+        </p>
+        <p style={{ ...pStyle, marginBottom:0 }}>
+          The study proposes the Green Line Project, a structural policy framework designed to address
+          disparities affecting Black Americans. Within this framework, one central pillar focuses on
+          restructuring county contracting and procurement systems to address disparities identified
+          in this analysis.
+        </p>
+      </div>
+
+      {/* Introduction */}
+      <h2 style={h2Style}>Introduction</h2>
+      <p style={pStyle}>
+        Public procurement programs distribute substantial public funds to private firms responsible
+        for infrastructure development, services, and operational support across local economies.
+        Because these programs influence access to economic opportunity, governments frequently
+        commission disparity studies to evaluate whether firms owned by minorities and women
+        participate in contracting systems at rates proportional to their availability in the
+        marketplace.
+      </p>
+      <p style={pStyle}>
+        Cuyahoga County has conducted disparity studies examining the distribution of county
+        contracting expenditures. These studies provide empirical evidence used to evaluate
+        procurement participation and inform policy decisions.
+      </p>
+      <p style={pStyle}>
+        This study presents a secondary analysis of those datasets and introduces an analytical
+        framework designed to further examine participation patterns affecting Black Americans in
+        county contracting systems.
+      </p>
+
+      <hr style={hrStyle} />
+
+      {/* Legal and Analytical Framework */}
+      <h2 style={h2Style}>Legal and Analytical Framework</h2>
+      <p style={pStyle}>
+        Disparity studies evaluate procurement participation using the disparity index:
+      </p>
+      <code style={codeStyle}>Disparity Index = (Utilization ÷ Availability) × 100</code>
+      <p style={pStyle}>
+        A disparity index of 100 indicates parity between contract utilization and marketplace
+        availability. Values below 80 are commonly interpreted as evidence of substantial disparity.
+      </p>
+      <p style={pStyle}>
+        This analytical framework reflects the evidentiary standard established by the United States
+        Supreme Court decision in{" "}
+        <em>City of Richmond v. J.A. Croson Co.</em> (1989), which requires governments to
+        demonstrate empirical evidence of disparity before implementing race-conscious procurement
+        programs.
+      </p>
+
+      <hr style={hrStyle} />
+
+      {/* Data Sources */}
+      <h2 style={h2Style}>Data Sources</h2>
+
+      <div style={{
+        background:C.forestBg, border:`1px solid ${C.forest}40`,
+        borderRadius:6, padding:"16px 20px", marginBottom:16,
+        borderLeft:`4px solid ${C.forest}`
+      }}>
+        <div style={{
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.forest,
+          letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:10
+        }}>Griffin &amp; Strong Disparity Study</div>
+        <p style={pStyle}>
+          The Griffin &amp; Strong disparity study examined approximately{" "}
+          <strong>$1,114,965,288</strong> in prime contracting expenditures.
+        </p>
+        <p style={{ ...pStyle, marginBottom:8 }}>
+          Category-level utilization tables indicate that Black-owned firms received the following
+          prime contract amounts:
+        </p>
+        <ul style={{
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkMid,
+          lineHeight:1.9, margin:"0 0 12px", paddingLeft:20
+        }}>
+          <li>Construction — $830,461.50</li>
+          <li>Professional Services — $145,372.00</li>
+          <li>Other Services — $944,336.44</li>
+          <li>Architecture &amp; Engineering — $600,000.00</li>
+          <li>Goods &amp; Supplies — $193,002.88</li>
+        </ul>
+        <p style={{ ...pStyle, marginBottom:0 }}>
+          These values produce a combined Black prime contract total of{" "}
+          <strong>$2,713,172.82</strong> (Griffin &amp; Strong, 2020, pp. 61–72). The same section
+          of the report provides marketplace availability estimates used to calculate expected
+          participation levels.
+        </p>
+      </div>
+
+      <div style={{
+        background:C.slateBg, border:`1px solid ${C.slate}40`,
+        borderRadius:6, padding:"16px 20px", marginBottom:16,
+        borderLeft:`4px solid ${C.slate}`
+      }}>
+        <div style={{
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.slate,
+          letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:10
+        }}>Cuyahoga County 2025 Disparity Study</div>
+        <p style={pStyle}>
+          The second dataset examined in this research is drawn from the Cuyahoga County 2025
+          Disparity Study Final Summary Report prepared by Keen Independent Research LLC.
+        </p>
+        <p style={{ ...pStyle, marginBottom:8 }}>
+          This dataset examined approximately <strong>$506,000,000</strong> in procurement activity
+          across 5,731 procurement elements.
+        </p>
+        <ul style={{
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:10, color:C.inkMid,
+          lineHeight:1.9, margin:"0 0 0", paddingLeft:20
+        }}>
+          <li>Black firm availability: 15.92%</li>
+          <li>Black firm utilization: 7.01%</li>
+        </ul>
+        <p style={{ ...pStyle, marginTop:8, marginBottom:0, fontSize:10, color:C.inkLight }}>
+          (Keen Independent Research LLC, 2025)
+        </p>
+      </div>
+
+      <div style={{
+        background:C.card, border:`1px solid ${C.border}`,
+        borderRadius:6, padding:"14px 20px", marginBottom:20
+      }}>
+        <div style={{
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.inkLight,
+          letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:8
+        }}>Total Procurement Analyzed</div>
+        <code style={{ ...codeStyle, margin:0 }}>
+          $1,114,965,288 + $506,000,000 = $1,620,965,288
+        </code>
+      </div>
+
+      <hr style={hrStyle} />
+
+      {/* Methodology */}
+      <h2 style={h2Style}>Methodology</h2>
+      <p style={pStyle}>
+        This study performs a secondary analysis of disparity datasets by restructuring ownership
+        categories in order to isolate participation patterns affecting Black Americans.
+      </p>
+      <p style={{ ...pStyle, marginBottom:8 }}>
+        The analytical framework groups firms into three categories:
+      </p>
+      <ol style={{
+        fontFamily:"'IBM Plex Sans',sans-serif", fontSize:12, color:C.inkMid,
+        lineHeight:1.9, margin:"0 0 14px", paddingLeft:22
+      }}>
+        <li>Majority-owned firms and White women-owned firms (aggregated)</li>
+        <li>Black American–owned firms (disaggregated from the broader Minority Business Enterprise category)</li>
+        <li>Remaining minority ownership categories</li>
+      </ol>
+      <p style={pStyle}>
+        This restructuring is applied solely for analytical interpretation and does not alter the
+        underlying disparity-study calculations.
+      </p>
+
+      <hr style={hrStyle} />
+
+      {/* Opportunity Gap Analysis */}
+      <h2 style={h2Style}>Availability-Based Opportunity Gap Analysis</h2>
+      <p style={pStyle}>
+        To estimate the economic magnitude of disparities, utilization and availability percentages
+        are translated into contract dollar values.
+      </p>
+      <code style={codeStyle}>Expected Contracts = Availability × Total Contract Value</code>
+      <code style={codeStyle}>Opportunity Gap = Expected − Actual</code>
+
+      <div style={{
+        display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, margin:"20px 0"
+      }}>
+        <div style={{
+          background:C.forestBg, border:`1px solid ${C.forest}40`,
+          borderRadius:6, padding:"16px 20px",
+          borderTop:`3px solid ${C.forest}`
+        }}>
+          <div style={{
+            fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.forest,
+            letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:10
+          }}>Griffin &amp; Strong Opportunity Gap</div>
+          <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
+            color:C.inkMid, lineHeight:1.9 }}>
+            <div>Expected: <strong style={{ color:C.ink }}>$103,049,670.47</strong></div>
+            <div>Actual: <strong style={{ color:C.ink }}>$2,713,172.82</strong></div>
+            <div style={{ marginTop:6, color:C.alert }}>
+              Gap: <strong>$100,336,497.65</strong>
+            </div>
+          </div>
+        </div>
+        <div style={{
+          background:C.slateBg, border:`1px solid ${C.slate}40`,
+          borderRadius:6, padding:"16px 20px",
+          borderTop:`3px solid ${C.slate}`
+        }}>
+          <div style={{
+            fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.slate,
+            letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:10
+          }}>Keen 2025 Opportunity Gap</div>
+          <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:10,
+            color:C.inkMid, lineHeight:1.9 }}>
+            <div>Expected: <strong style={{ color:C.ink }}>$80,555,200.00</strong></div>
+            <div>Actual: <strong style={{ color:C.ink }}>$35,480,600.00</strong></div>
+            <div style={{ marginTop:6, color:C.alert }}>
+              Gap: <strong>$45,074,600.00</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{
+        background:C.alertBg, border:`1px solid ${C.alert}40`,
+        borderRadius:6, padding:"16px 20px", marginBottom:20,
+        borderTop:`3px solid ${C.alert}`
+      }}>
+        <div style={{
+          fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:C.alert,
+          letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:10
+        }}>Combined Availability-Based Gap</div>
+        <div style={{ display:"flex", gap:24, flexWrap:"wrap" }}>
+          {[
+            ["Expected Black Participation", "$183,604,870.47"],
+            ["Actual Black Contracts",        "$38,193,772.82" ],
+            ["Availability-Based Gap",        "$145,411,097.65"],
+          ].map(([lbl, val]) => (
+            <div key={lbl}>
+              <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+                color:C.inkFaint, letterSpacing:"0.06em", textTransform:"uppercase",
+                marginBottom:4 }}>{lbl}</div>
+              <div style={{ fontFamily:"'Playfair Display',serif", fontSize:18,
+                fontWeight:700, color:C.alert }}>{val}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <hr style={hrStyle} />
+
+      {/* Population-Based Allocation Model */}
+      <h2 style={h2Style}>Population-Based Allocation Model</h2>
+      <p style={pStyle}>
+        Population estimates for Cuyahoga County are derived from the American Community Survey
+        DP05 dataset. Total county population: <strong>1,240,594</strong>. Black population
+        share: <strong>30.3%</strong> (U.S. Census Bureau, 2023).
+      </p>
+      <code style={codeStyle}>0.303 × $1,620,965,288 = $491,152,482.26</code>
+
+      <div style={{
+        background:C.goldBg, border:`1px solid ${C.gold}40`,
+        borderRadius:6, padding:"16px 20px", marginBottom:20,
+        borderTop:`3px solid ${C.gold}`
+      }}>
+        <div style={{ display:"flex", gap:24, flexWrap:"wrap" }}>
+          {[
+            ["Expected (Population Model)", "$491,152,482.26", C.gold],
+            ["Actual Contracts Received",   "$38,193,772.82",  C.inkMid],
+            ["Population-Based Gap",        "$452,958,709.44", C.alert],
+          ].map(([lbl, val, col]) => (
+            <div key={lbl}>
+              <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:8,
+                color:C.inkFaint, letterSpacing:"0.06em", textTransform:"uppercase",
+                marginBottom:4 }}>{lbl}</div>
+              <div style={{ fontFamily:"'Playfair Display',serif", fontSize:18,
+                fontWeight:700, color:col }}>{val}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <hr style={hrStyle} />
+
+      {/* Interactive Analytical Model */}
+      <h2 style={h2Style}>Interactive Analytical Model</h2>
+      <p style={pStyle}>
+        An interactive analytical model accompanying this research is available at{" "}
+        <a href="https://shabazzresearch.com" target="_blank" rel="noopener noreferrer"
+          style={{ color:C.slate }}>ShabazzResearch.com</a>.
+      </p>
+      <p style={pStyle}>
+        The model allows users to examine contract totals, availability estimates, utilization rates,
+        expected contract values, and opportunity gap calculations derived from the datasets analyzed
+        in this study.
+      </p>
+      <p style={pStyle}>
+        The model functions as a transparent computational extension of the analysis presented in
+        this paper.
+      </p>
+
+      <hr style={hrStyle} />
+
+      {/* Policy Implications */}
+      <h2 style={h2Style}>Policy Implications: The Green Line Project</h2>
+      <div style={{
+        background:C.forestBg, border:`1px solid ${C.forest}40`,
+        borderRadius:6, padding:"16px 20px", marginBottom:16,
+        borderLeft:`4px solid ${C.forest}`
+      }}>
+        <p style={pStyle}>
+          The Green Line Project is a structural policy framework designed to address disparities
+          affecting Black Americans.
+        </p>
+        <p style={pStyle}>
+          Within this framework, one central pillar focuses specifically on overhauling county
+          contracting and procurement systems. The goal of this pillar is to address disparities in
+          contracting participation identified through the availability-based analysis presented in
+          this research.
+        </p>
+        <p style={{ ...pStyle, marginBottom:0 }}>
+          Because public procurement represents a major channel through which governments distribute
+          economic opportunity, reforms in contracting systems have the potential to significantly
+          influence the distribution of economic resources within the county.
+        </p>
+      </div>
+
+      <hr style={hrStyle} />
+
+      {/* Conclusion */}
+      <h2 style={h2Style}>Conclusion</h2>
+      <p style={pStyle}>
+        This study presents a secondary analysis of two disparity datasets examining approximately
+        $1.62 billion in county contracting activity.
+      </p>
+      <p style={pStyle}>
+        Across these datasets, Black-owned firms received approximately $38.19 million in contracts,
+        while availability-based modeling suggests that approximately $183.60 million would be
+        expected if participation reflected marketplace availability.
+      </p>
+      <p style={pStyle}>
+        This difference represents an estimated availability-based contracting opportunity gap of
+        approximately $145.41 million.
+      </p>
+      <p style={pStyle}>
+        A population-based allocation model further indicates that approximately $491.15 million in
+        contracts would correspond to the Black share of the county population.
+      </p>
+      <p style={pStyle}>
+        These findings indicate that structural policy responses may be warranted to address
+        persistent disparities in public procurement participation. The Green Line Project is proposed
+        as one framework through which these disparities may be addressed.
+      </p>
+
+      <hr style={hrStyle} />
+
+      {/* References */}
+      <h2 style={h2Style}>References</h2>
+      <div style={{ marginTop:12 }}>
+        <p style={refStyle}>
+          Griffin &amp; Strong, P.C. (2020). <em>Cuyahoga County disparity study.</em> Prepared for
+          Cuyahoga County.
+        </p>
+        <p style={refStyle}>
+          Keen Independent Research LLC. (2025). <em>Cuyahoga County 2025 disparity study: Final
+          summary report.</em> Prepared for Cuyahoga County.
+        </p>
+        <p style={refStyle}>
+          U.S. Census Bureau. (2023). <em>American Community Survey DP05: Demographic and housing
+          estimates.</em>{" "}
+          <a href="https://data.census.gov/table/ACSDP5Y2023.DP05" target="_blank"
+            rel="noopener noreferrer" style={{ color:C.slate, wordBreak:"break-all" }}>
+            https://data.census.gov/table/ACSDP5Y2023.DP05
+          </a>
+        </p>
+      </div>
+
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // SHELL
 // ═══════════════════════════════════════════════════════════════════════════════
 const TABS = [
+  { id:"narrative", label:"00 · Narrative"                        },
   { id:"viewA",     label:"01 · MBE/WBE Study Framework"        },
   { id:"viewB",     label:"02 · 3-Group Research Framework"      },
   { id:"gspc",      label:"03 · GSPC 2020"                       },
@@ -1320,8 +1791,9 @@ const TABS = [
 ];
 
 export default function App() {
-  const [tab, setTab] = useState("viewA");
+  const [tab, setTab] = useState("narrative");
   const panels = {
+    narrative:<PanelNarrative/>,
     viewA:<PanelViewA/>, viewB:<PanelViewB/>, gspc:<PanelGSPC/>,
     greenline:<PanelGreenLine/>, sources:<PanelSources/>
   };
