@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine
@@ -462,8 +462,7 @@ const legendStyle = { fontFamily:"'IBM Plex Mono',monospace", fontSize:9, color:
 // ═══════════════════════════════════════════════════════════════════════════════
 // PANEL A
 // ═══════════════════════════════════════════════════════════════════════════════
-function PanelViewA() {
-  const [activeInd, setActiveInd] = useState("overall");
+function PanelViewA({ activeInd, setActiveInd }) {
   const activeSet = INDUSTRY_SETS.find(s=>s.key===activeInd);
   const data = activeSet.data;
 
@@ -586,8 +585,7 @@ const THREE_GROUP_COLOR = {
   remainingMBE:C.hispanic,
 };
 
-function PanelViewB() {
-  const [activeInd, setActiveInd] = useState("overall");
+function PanelViewB({ activeInd, setActiveInd }) {
   const activeSet = INDUSTRY_SETS.find(s=>s.key===activeInd);
 
   const stackData = INDUSTRY_SETS.map(s=>{
@@ -1308,6 +1306,20 @@ function PanelGreenLine() {
   );
 }
 
+// ─── URL HASH HELPERS ─────────────────────────────────────────────────────────
+// Hash format:  #tabId  or  #tabId/industryKey
+// Examples:  #viewA  ·  #viewA/construction  ·  #viewB/profsvcs  ·  #gspc
+function parseHash() {
+  const parts = window.location.hash.slice(1).split("/");
+  const tabId = TABS.find(t => t.id === parts[0]) ? parts[0] : "viewA";
+  const ind   = INDUSTRY_SETS.find(s => s.key === parts[1]) ? parts[1] : "overall";
+  return { tabId, ind };
+}
+
+function buildHash(tabId, ind) {
+  return ind && ind !== "overall" ? `#${tabId}/${ind}` : `#${tabId}`;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // SHELL
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1320,10 +1332,52 @@ const TABS = [
 ];
 
 export default function App() {
-  const [tab, setTab] = useState("viewA");
+  const { tabId: initTab, ind: initInd } = parseHash();
+  const [tab, setTab]           = useState(initTab);
+  const [activeIndA, setActiveIndA] = useState(initInd);
+  const [activeIndB, setActiveIndB] = useState(initInd);
+
+  // Stamp the initial URL on first render (handles bare-path loads with no hash)
+  useEffect(() => {
+    const ind = initTab === "viewA" ? initInd : initTab === "viewB" ? initInd : null;
+    window.history.replaceState(null, "", buildHash(initTab, ind));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Sync React state when the user navigates back/forward in the browser
+  useEffect(() => {
+    const onPopState = () => {
+      const { tabId, ind } = parseHash();
+      setTab(tabId);
+      if (tabId === "viewA") setActiveIndA(ind);
+      if (tabId === "viewB") setActiveIndB(ind);
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  // Tab click — push a new history entry so back-button works
+  const handleTabClick = (id) => {
+    const ind = id === "viewA" ? activeIndA : id === "viewB" ? activeIndB : null;
+    window.history.pushState(null, "", buildHash(id, ind));
+    setTab(id);
+  };
+
+  // Figure selectors inside View A / View B — replace current entry (minor navigation)
+  const handleSetActiveIndA = (ind) => {
+    window.history.replaceState(null, "", buildHash("viewA", ind));
+    setActiveIndA(ind);
+  };
+  const handleSetActiveIndB = (ind) => {
+    window.history.replaceState(null, "", buildHash("viewB", ind));
+    setActiveIndB(ind);
+  };
+
   const panels = {
-    viewA:<PanelViewA/>, viewB:<PanelViewB/>, gspc:<PanelGSPC/>,
-    greenline:<PanelGreenLine/>, sources:<PanelSources/>
+    viewA:     <PanelViewA activeInd={activeIndA} setActiveInd={handleSetActiveIndA} />,
+    viewB:     <PanelViewB activeInd={activeIndB} setActiveInd={handleSetActiveIndB} />,
+    gspc:      <PanelGSPC />,
+    greenline: <PanelGreenLine />,
+    sources:   <PanelSources />,
   };
 
   return (
@@ -1397,7 +1451,7 @@ export default function App() {
           const a = tab===t.id;
           const isGL = t.id==="greenline";
           return (
-            <button key={t.id} onClick={()=>setTab(t.id)} style={{
+            <button key={t.id} onClick={()=>handleTabClick(t.id)} style={{
               padding:"10px 18px",
               fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
               fontWeight:a?600:400,
