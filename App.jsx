@@ -75,6 +75,17 @@ const INDUSTRY_SETS = [
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// CROSS-STUDY MAPPING — industries present in BOTH Keen 2025 and GSPC 2020
+// (Keen "Overall" has no GSPC equivalent; GSPC "A&E" has no Keen equivalent)
+// ═══════════════════════════════════════════════════════════════════════════════
+const COMBINED_INDUSTRIES = [
+  { key:"construction", keenKey:"construction", gspcKey:"construction", label:"Construction",   keenFig:"28", keenPage:54 },
+  { key:"profsvcs",     keenKey:"profsvcs",     gspcKey:"profServices",  label:"Prof. Services", keenFig:"31", keenPage:57 },
+  { key:"goods",        keenKey:"goods",         gspcKey:"goods",         label:"Goods",          keenFig:"34", keenPage:60 },
+  { key:"other",        keenKey:"other",         gspcKey:"otherServices", label:"Other Services", keenFig:"35", keenPage:61 },
+];
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // DATA — GSPC 2020  (from GSPC 2020 report)
 // ═══════════════════════════════════════════════════════════════════════════════
 const GSPC_AVAIL = {
@@ -332,7 +343,7 @@ const MethodBox = () => (
 );
 
 // ─── DISPARITY TABLE ──────────────────────────────────────────────────────────
-const DispTable = ({ data, title, page }) => (
+const DispTable = ({ data, title, page, link }) => (
   <div style={{
     background:C.card, border:`1px solid ${C.border}`,
     borderRadius:6, overflow:"hidden", marginBottom:16
@@ -345,7 +356,7 @@ const DispTable = ({ data, title, page }) => (
       <span style={{
         fontFamily:"'IBM Plex Sans',sans-serif", fontSize:11, fontWeight:600, color:C.ink
       }}>{title}</span>
-      <PDFLink page={page} compact />
+      {link != null ? link : <PDFLink page={page} compact />}
     </div>
     <div style={{ overflowX:"auto" }}>
       <table style={{ width:"100%", borderCollapse:"collapse", minWidth:520 }}>
@@ -585,6 +596,33 @@ const THREE_GROUP_COLOR = {
   black:       C.black,
   remainingMBE:C.hispanic,
 };
+
+// ─── GSPC 3-GROUP COLLAPSE ────────────────────────────────────────────────────
+// Mirrors collapseToThree() for GSPC 2020 data.
+// Majority-Owned is derived: (100% – totalMWBE), since GSPC does not list it
+// separately. Remaining MBE = Asian + Hispanic + AIAN (no MENA in GSPC data).
+function gspcCollapseToThree(gspcKey) {
+  const a = GSPC_AVAIL[gspcKey];
+  const u = GSPC_UTIL[gspcKey];
+  if (!a || !u) return [];
+
+  const maj_avail    = parseFloat((100 - a.totalMWBE).toFixed(2));
+  const maj_util     = parseFloat((100 - u.totalMWBE).toFixed(2));
+  const wbeMaj_avail = parseFloat((a.wbe + maj_avail).toFixed(2));
+  const wbeMaj_util  = parseFloat((u.wbe + maj_util).toFixed(2));
+  const wbeMaj_idx   = wbeMaj_avail > 0 ? Math.round(wbeMaj_util / wbeMaj_avail * 100) : 0;
+
+  const black_idx    = a.black > 0 ? Math.round(u.black / a.black * 100) : 0;
+  const rem_avail    = parseFloat(((a.asian||0) + (a.hispanic||0) + (a.indian||0)).toFixed(2));
+  const rem_util     = parseFloat(((u.asian||0) + (u.hispanic||0) + (u.indian||0)).toFixed(2));
+  const rem_idx      = rem_avail > 0 ? Math.round(rem_util / rem_avail * 100) : 0;
+
+  return [
+    { id:"wbeMaj",       label:"White Women + Majority", cat:"whiteWomen", util:wbeMaj_util,  avail:wbeMaj_avail, idx:wbeMaj_idx  },
+    { id:"black",        label:"Black-Owned",            cat:"black",      util:u.black,       avail:a.black,      idx:black_idx   },
+    { id:"remainingMBE", label:"Remaining MBE",          cat:"hispanic",   util:rem_util,      avail:rem_avail,    idx:rem_idx     },
+  ];
+}
 
 function PanelViewB() {
   const [activeInd, setActiveInd] = useState("overall");
@@ -835,11 +873,212 @@ function PanelGSPC() {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// PANEL COMBINED — Cross-Study 3-Group Analysis
+// Keen 2025 (FY2020–24) side-by-side with GSPC 2020 (FY2014–18),
+// both collapsed into the same three groups used in PanelViewB:
+//   (1) White Women + Majority  (2) Black-Owned  (3) Remaining MBE
+// ═══════════════════════════════════════════════════════════════════════════════
+const GSPC_WEB = "https://cuyahogacounty.gov/docs/default-source/council/synapse/idlt_323538_file_100021777_20210408-ccwhl-agendattach.pdf";
+
+function PanelCombined() {
+  const [activeInd, setActiveInd] = useState("construction");
+  const activeCI = COMBINED_INDUSTRIES.find(ci => ci.key === activeInd);
+
+  // Keen 2025 — selected industry collapsed to 3 groups
+  const keenSet   = INDUSTRY_SETS.find(s => s.key === activeCI.keenKey);
+  const keenThree = collapseToThree(keenSet.data);
+
+  // GSPC 2020 — selected industry collapsed to 3 groups
+  const gspcThree = gspcCollapseToThree(activeCI.gspcKey);
+
+  // Stacked utilization across all shared industries
+  const keenStackData = COMBINED_INDUSTRIES.map(ci => {
+    const three = collapseToThree(INDUSTRY_SETS.find(s => s.key === ci.keenKey).data);
+    const d = { name:ci.label };
+    three.forEach(g => { d[g.id] = g.util; });
+    return d;
+  });
+  const gspcStackData = COMBINED_INDUSTRIES.map(ci => {
+    const three = gspcCollapseToThree(ci.gspcKey);
+    const d = { name:ci.label };
+    three.forEach(g => { d[g.id] = g.util; });
+    return d;
+  });
+
+  // Util vs Avail for selected industry
+  const keenUvData = keenThree.map(g => ({ name:g.label, Utilization:g.util, Availability:g.avail }));
+  const gspcUvData = gspcThree.map(g => ({ name:g.label, Utilization:g.util, Availability:g.avail }));
+
+  // Cross-industry disparity index
+  const keenIdxCross = COMBINED_INDUSTRIES.map(ci => {
+    const three = collapseToThree(INDUSTRY_SETS.find(s => s.key === ci.keenKey).data);
+    const d = { name:ci.label };
+    three.forEach(g => { d[g.label] = g.idx >= 200 ? 200 : g.idx; });
+    return d;
+  });
+  const gspcIdxCross = COMBINED_INDUSTRIES.map(ci => {
+    const three = gspcCollapseToThree(ci.gspcKey);
+    const d = { name:ci.label };
+    three.forEach(g => { d[g.label] = g.idx >= 200 ? 200 : g.idx; });
+    return d;
+  });
+
+  const cardStyle = { background:C.card, border:`1px solid ${C.border}`, borderRadius:6, padding:"16px 18px" };
+  const gspcLink  = <WebLink url={GSPC_WEB} label="GSPC 2020 PDF" compact />;
+
+  return (
+    <div>
+      <SecHead n={4} title="Combined Study — 3-Group Cross-Analysis"
+        sub="Keen 2025 (FY2020–24) · GSPC 2020 (FY2014–18) · White Women + Majority · Black-Owned · Remaining MBE" />
+      <MethodBox />
+
+      {/* Framework note */}
+      <div style={{
+        background:C.slateBg, border:`1px solid ${C.slate}40`,
+        borderRadius:6, padding:"12px 18px", marginBottom:20,
+        fontFamily:"'IBM Plex Sans',sans-serif", fontSize:10, color:C.inkMid, lineHeight:1.8,
+        borderLeft:`4px solid ${C.slate}`
+      }}>
+        <strong style={{ color:C.slate, fontFamily:"'IBM Plex Mono',monospace",
+          fontSize:9, letterSpacing:"0.06em", textTransform:"uppercase" }}>Combined Framework — </strong>
+        Both studies are restructured into the same three analytical groups used in the 3-Group Research Framework:
+        White Women + Majority-Owned (combined), Black-Owned firms (disaggregated), and Remaining MBE
+        (Hispanic + Asian + AIAN). In GSPC 2020, Majority-Owned share is derived as{" "}
+        <strong style={{ color:C.slate }}>(100% − Total MWBE)</strong> since the study reports totalMWBE
+        rather than majority separately. Only industries present in both studies are shown.
+        <div style={{ marginTop:8, display:"flex", gap:6 }}>
+          <StudyChip s="keen" /><StudyChip s="gspc" />
+        </div>
+      </div>
+
+      {/* Key stat callouts */}
+      <div style={{ display:"flex", gap:10, flexWrap:"wrap", marginBottom:22 }}>
+        <Stat lbl="Keen 2025 — Black-Owned Overall" val="Index 44" sub="7.01% util · 15.92% avail · SUBSTANTIAL" col={C.alert} />
+        <Stat lbl="GSPC 2020 — Black-Owned (Construction)" val="Index 3" sub="0.38% util · 14.87% avail · SUBSTANTIAL" col={C.alert} />
+        <Stat lbl="Keen 2025 — WBE + Majority Overall" val="Index 113" sub="90.95% util · 80.20% avail" col={C.whiteWomen} />
+        <Stat lbl="GSPC 2020 — WBE + Majority (Construction)" val="Index 130" sub="98.84% util · 75.94% avail" col={C.whiteWomen} />
+      </div>
+
+      {/* Industry selector */}
+      <div style={{ display:"flex", gap:7, flexWrap:"wrap", marginBottom:16 }}>
+        {COMBINED_INDUSTRIES.map(ci => (
+          <button key={ci.key} onClick={() => setActiveInd(ci.key)} style={{
+            padding:"5px 13px", fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+            color:activeInd === ci.key ? C.card : C.inkMid,
+            background:activeInd === ci.key ? C.slate : "transparent",
+            border:`1px solid ${activeInd === ci.key ? C.slate : C.border}`,
+            borderRadius:4, cursor:"pointer", transition:"all 0.15s"
+          }}>
+            {ci.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Stacked utilization — side by side */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
+        {[
+          { label:"Keen 2025 — Utilization % (3 Groups)", data:keenStackData, chip:"keen" },
+          { label:"GSPC 2020 — Utilization % (3 Groups)", data:gspcStackData, chip:"gspc" },
+        ].map(({ label, data, chip }) => (
+          <div key={chip} style={cardStyle}>
+            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8,
+              alignItems:"center", flexWrap:"wrap", gap:6 }}>
+              <Label ch={label} col={C.inkLight} sz={8} />
+              <StudyChip s={chip} />
+            </div>
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={data} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="30%">
+                <CartesianGrid {...gridProps} />
+                <XAxis dataKey="name" {...axProps} />
+                <YAxis {...axProps} tickFormatter={v => v+"%"} domain={[0,100]} />
+                <Tooltip content={<Tip />} />
+                <Legend wrapperStyle={legendStyle} />
+                <Bar dataKey="wbeMaj"       name="White Women + Majority" stackId="a" fill={C.whiteWomen} />
+                <Bar dataKey="black"        name="Black-Owned"            stackId="a" fill={C.black}      />
+                <Bar dataKey="remainingMBE" name="Remaining MBE"          stackId="a" fill={C.hispanic} radius={[3,3,0,0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ))}
+      </div>
+
+      {/* Util vs Avail — selected industry, side by side */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
+        {[
+          { label:`Keen 2025 — Util vs. Avail: ${activeCI.label}`, data:keenUvData, chip:"keen" },
+          { label:`GSPC 2020 — Util vs. Avail: ${activeCI.label}`, data:gspcUvData, chip:"gspc" },
+        ].map(({ label, data, chip }) => (
+          <div key={chip} style={cardStyle}>
+            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8,
+              alignItems:"center", flexWrap:"wrap", gap:6 }}>
+              <Label ch={label} col={C.inkLight} sz={8} />
+              <StudyChip s={chip} />
+            </div>
+            <ResponsiveContainer width="100%" height={210}>
+              <BarChart data={data} margin={{ top:10,right:5,left:0,bottom:30 }} barCategoryGap="28%">
+                <CartesianGrid {...gridProps} />
+                <XAxis dataKey="name" {...axProps} angle={-20} textAnchor="end" interval={0} />
+                <YAxis {...axProps} tickFormatter={v => v+"%"} />
+                <Tooltip content={<Tip />} />
+                <Legend wrapperStyle={legendStyle} />
+                <Bar dataKey="Utilization"  fill={C.slate}    radius={[3,3,0,0]} />
+                <Bar dataKey="Availability" fill={C.cardSunk} radius={[3,3,0,0]} stroke={C.border} strokeWidth={1} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ))}
+      </div>
+
+      {/* Disparity index cross-industry — side by side */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
+        {[
+          { label:"Keen 2025 — Disparity Index (3 Groups)", data:keenIdxCross, chip:"keen" },
+          { label:"GSPC 2020 — Disparity Index (3 Groups)", data:gspcIdxCross, chip:"gspc" },
+        ].map(({ label, data, chip }) => (
+          <div key={chip} style={cardStyle}>
+            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8,
+              alignItems:"center", flexWrap:"wrap", gap:6 }}>
+              <Label ch={label} col={C.inkLight} sz={8} />
+              <StudyChip s={chip} />
+            </div>
+            <ResponsiveContainer width="100%" height={210}>
+              <BarChart data={data} margin={{ top:10,right:5,left:0,bottom:5 }} barCategoryGap="22%">
+                <CartesianGrid {...gridProps} />
+                <XAxis dataKey="name" {...axProps} />
+                <YAxis {...axProps} domain={[0,220]} />
+                <Tooltip content={<Tip />} />
+                <Legend wrapperStyle={legendStyle} />
+                <ReferenceLine y={100} stroke={C.parity} strokeDasharray="4 4" label={{ value:"Parity", fill:C.parity, fontSize:8, fontFamily:"'IBM Plex Mono',monospace" }} />
+                <ReferenceLine y={80}  stroke={C.warn}   strokeDasharray="4 4" label={{ value:"Croson", fill:C.warn,   fontSize:8, fontFamily:"'IBM Plex Mono',monospace" }} />
+                <Bar dataKey="White Women + Majority" fill={C.whiteWomen} radius={[3,3,0,0]} />
+                <Bar dataKey="Black-Owned"            fill={C.black}      radius={[3,3,0,0]} />
+                <Bar dataKey="Remaining MBE"          fill={C.hispanic}   radius={[3,3,0,0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ))}
+      </div>
+
+      {/* Disparity tables — side by side */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
+        <DispTable data={keenThree}
+          title={`Keen 2025 — ${activeCI.label} · Fig. ${activeCI.keenFig}`}
+          page={String(activeCI.keenPage)} />
+        <DispTable data={gspcThree}
+          title={`GSPC 2020 — ${activeCI.label}`}
+          link={gspcLink} />
+      </div>
+    </div>
+  );
+}
+
 // ─── PANEL SOURCES ────────────────────────────────────────────────────────────
 function PanelSources() {
   return (
     <div>
-      <SecHead n={4} title="Source Directory" sub="All figures verified against primary source documents" />
+      {/* n=6 matches "06 · Sources" tab label; Green Line (05) uses a custom header with no SecHead */}
+      <SecHead n={6} title="Source Directory" sub="All figures verified against primary source documents" />
       {[
         { cat:"Primary Studies", items:[
           { type:"pdf",  label:"Keen Independent 2025 — CuyahogaCounty_FinalSummaryReport_10292025.pdf (uploaded)", url:"", note:"2020–2024 · $506M · 5,731 contracts · Keen Independent Research LLC · October 2025 · 79 pages" },
@@ -1315,15 +1554,16 @@ const TABS = [
   { id:"viewA",     label:"01 · MBE/WBE Study Framework"        },
   { id:"viewB",     label:"02 · 3-Group Research Framework"      },
   { id:"gspc",      label:"03 · GSPC 2020"                       },
-  { id:"greenline", label:"04 · Green Line Project"              },
-  { id:"sources",   label:"05 · Sources"                         },
+  { id:"combined",  label:"04 · Combined Study Analysis"         },
+  { id:"greenline", label:"05 · Green Line Project"              },
+  { id:"sources",   label:"06 · Sources"                         },
 ];
 
 export default function App() {
   const [tab, setTab] = useState("viewA");
   const panels = {
     viewA:<PanelViewA/>, viewB:<PanelViewB/>, gspc:<PanelGSPC/>,
-    greenline:<PanelGreenLine/>, sources:<PanelSources/>
+    combined:<PanelCombined/>, greenline:<PanelGreenLine/>, sources:<PanelSources/>
   };
 
   return (
