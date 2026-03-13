@@ -954,9 +954,9 @@ function PanelCombined() {
 
       {/* Key stat callouts */}
       <div style={{ display:"flex", gap:10, flexWrap:"wrap", marginBottom:22 }}>
-        <Stat lbl="Keen 2025 — Black-Owned Overall" val="Index 44" sub="7.01% util · 15.92% avail · SUBSTANTIAL" col={C.alert} />
+        <Stat lbl="Keen 2025 — Black-Owned Overall" val="Index 44" sub="7.01% util · 15.92% avail · $35.5M · SUBSTANTIAL" col={C.alert} />
         <Stat lbl="GSPC 2020 — Black-Owned (Construction)" val="Index 3" sub="0.38% util · 14.87% avail · SUBSTANTIAL" col={C.alert} />
-        <Stat lbl="Keen 2025 — WBE + Majority Overall" val="Index 113" sub="90.95% util · 80.20% avail" col={C.whiteWomen} />
+        <Stat lbl="Keen 2025 — WBE + Majority Overall" val="Index 113" sub="90.95% util · 80.20% avail · $460.6M" col={C.whiteWomen} />
         <Stat lbl="GSPC 2020 — WBE + Majority (Construction)" val="Index 130" sub="98.84% util · 75.94% avail" col={C.whiteWomen} />
       </div>
 
@@ -1438,7 +1438,7 @@ function PanelGreenLine() {
                   { lbl:"Black pop. share", val:"28.6%", note:"ACS DP05 2023" },
                   { lbl:"Contract share",   val:"7.01%", note:"Keen 2025 Fig. 27" },
                   { lbl:"Disparity Index",  val:"44",    note:"Most severe — all industries" },
-                  { lbl:"Dollar gap",       val:"$44.1M",note:"vs. proportional parity" },
+                  { lbl:"Dollar gap",       val:"$45.1M",note:"vs. proportional parity" },
                 ].map(s=>(
                   <div key={s.lbl} style={{ background:C.bg, borderRadius:5, padding:"8px 11px",
                     borderTop:`2px solid ${GL}` }}>
